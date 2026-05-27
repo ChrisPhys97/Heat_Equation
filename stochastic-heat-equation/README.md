@@ -45,6 +45,6 @@ $$
    
 ### Requirements 
 
-Numpy
-Plotly
+Numpy,
+Plotly,
 numba
