@@ -6,13 +6,7 @@ This 2D simulation originally started as a heat diffusion homework assignment du
 
 The upgrades include:
 - Multiple localized heat sources,
-- Source locations whose x-coordinates follow the probability density function
-
-$$
-f(x)=\pi \sin(\pi x)
-$$
-
-while the \(y\)-coordinates follow a uniform distribution within \[0.1,0.9]\,
+- Source locations whose x-coordinates follow the probability density function $$f(x)=\pi \sin(\pi x)$$ while the y-coordinates follow a uniform distribution within \[0.1,0.9]\.
 - Stochastic source activation modeled as a discrete-time approximation of a Poisson process,
 - Advection-diffusion transport,
 - Time-dependent visualization and animation.
