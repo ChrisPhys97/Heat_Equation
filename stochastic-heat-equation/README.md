@@ -31,13 +31,13 @@ The upgrades include:
 - Volume integrals approximated by the product of the cell-average value and the control-volume size, namely
 
 $$
-\bar{u}\,\Delta V,
+\bar{u}\ \Delta V,
 \qquad \text{with} \qquad \bar{u}=u_{P}.
 $$
 - Time discretization by Forward Explict Euler method.
 - Boundary Conditions: Linear interpolation.
   
-The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM), namely the Forward Time-Centered Space (FTCS) scheme.
+  The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM), namely the Forward Time-Centered Space (FTCS) scheme.
 
 4. Time-dependent animation and visualization using Plotly.
    
