@@ -23,10 +23,8 @@ class HeatEquationApp:
         self.root = tk.Tk()
         self.root.title("Heat Equation App")
         self.root.geometry("500x300")
-
         self.method_var = tk.StringVar(value="FTCS")
         self.entries = []
-
         self.create_main_window()
 
     def create_main_window(self):
