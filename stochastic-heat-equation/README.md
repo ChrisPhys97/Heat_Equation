@@ -25,9 +25,11 @@ The upgrades include:
 3. Information regarding the discretization procedure, stability conditions, and boundary conditions. The finite volume formulation includes:
 
 - Surface integrals evaluated using the midpoint rule,
+  
 - Interpolation schemes:
   - Upwind Differencing Scheme (UDS) for the advective terms,
   - Central Differencing Scheme (CDS) for the diffusive terms,
+    
 - Volume integrals approximated by the product of the cell-average value and the control-volume size, namely
 
 $$
@@ -35,6 +37,7 @@ $$
 \qquad \bar{u}=u_{P}.
 $$
 - Time discretization by Forward Explict Euler method.
+  
 - Boundary Conditions: Linear interpolation.
   
   The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM), namely the Forward Time-Centered Space (FTCS) scheme.
