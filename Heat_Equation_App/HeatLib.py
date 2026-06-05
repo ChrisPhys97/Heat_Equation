@@ -7,7 +7,6 @@ from matplotlib.animation import FuncAnimation
 def Animation(dt,n,t,x,u):
     if n!=0:
         # --- If time step is very small, skip frames to make animation faster ---
-        
         if dt<0.001:   
             t_for_animation = t[::10]  
             u_for_animation = u[::10]
@@ -47,7 +46,7 @@ def FTCS(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
     f0=ne.evaluate(f0,local_dict={"x":x,"t":t,"pi":np.pi})
     fN=ne.evaluate(fN,local_dict={"x":x,"t":t,"pi":np.pi})
 
-    # --- Program control: Select the boundary-condition type from the coefficients a and k ---
+    # --- Program control: Boundary-condition type selection from the coefficients a and k ---
 
     # --- Heat Coefficients are both zero, Dirichlet boundary conditions: k = 0, so u = f/a---
 
