@@ -1,0 +1,7 @@
+HeatLib
+numpy
+tkinter
+matplotlib
+numexpr
+scipy
+
