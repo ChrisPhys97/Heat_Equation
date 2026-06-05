@@ -6,8 +6,9 @@ from matplotlib.animation import FuncAnimation
 
 def Animation(dt,n,t,x,u):
     if n!=0:
-
-        if dt<0.001:    # --- If time step is very small, skip frames to make animation faster ---
+        # --- If time step is very small, skip frames to make animation faster ---
+        
+        if dt<0.001:   
             t_for_animation = t[::10]  
             u_for_animation = u[::10]
         else:
