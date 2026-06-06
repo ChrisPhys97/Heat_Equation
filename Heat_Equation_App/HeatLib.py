@@ -127,6 +127,10 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
             u[:,0]=f0/a0
             u[:,-1]=fN/aN
 
+            # --- Constant Crank-Nicolson matrix: Permorf LU decomposition once and reuse at every time step ---
+
+            lu1,piv1 = lng.lu_factor(A1)
+            
             # For time-dependent Dirichlet boundary conditions, the boundary contribution must be updated at every time step.
 
             for n in range(0,len(t)-1):
@@ -134,8 +138,9 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
                 b0_1[-1]=u[n,-1]
                 b1_1[0]=u[n+1,0]
                 b1_1[-1]=u[n+1,-1]
+                
                 C1=B1@u[n,1:-1]+r*b0_1+r*b1_1
-                u[n+1,1:-1]=lng.solve(A1,C1)
+                u[n+1,1:-1]=lng.lu_solve((lu1,piv1),C1)
 
     elif a0==0 and aN==0 and k0!=0 and kN!=0:
         if r<=0:
@@ -145,9 +150,12 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
             b1[:,-1]=b0[:,-1]=-2*r*dx*(fN/kN)
             A[0,1]=A[-1,-2]=-2*r
             B[0,1]=B[-1,-2]=2*r
+
+            lu,piv = lng.lu_factor(A)
+            
             for n in range(len(t)-1):
                 C=B@u[n,:]+b0[n,:]+b1[n+1,:]
-                u[n+1,:]=lng.solve(A,C)
+                u[n+1,:]=lng.lu_solve((lu,piv),C)
 
     elif k0!=0 and kN!=0:
         if r<=0:
@@ -161,9 +169,12 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
             A[-1,-1]=2+2*r*(1-(aN/kN)*dx)
             B[0,0]=2-2*r*(1-(a0/k0)*dx)
             B[-1,-1]=2-2*r*(1+(aN/kN)*dx)
+
+            lu,piv = lng.lu_factor(A)
+            
             for n in range(len(t)-1):
                 C=B@u[n,:]+b0[n,:]+b1[n+1,:]
-                u[n+1,:]=lng.solve(A,C)
+                u[n+1,:]=lng.lu_solve((lu,piv),C)
     else:
         n=0
         raise ValueError("Invalid boundary parameters.")
