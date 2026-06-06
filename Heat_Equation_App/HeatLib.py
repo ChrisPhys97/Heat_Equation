@@ -102,23 +102,23 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
     f0=ne.evaluate(f0,local_dict={"x":x,"t":t,"pi":np.pi})
     fN=ne.evaluate(fN,local_dict={"x":x,"t":t,"pi":np.pi})
     
-    # Matrices for the interior nodes when Dirichlet boundary conditions are used.
+    # --- Matrices for the interior nodes when Dirichlet boundary conditions are used ---
 
     A1=np.diag((2 + 2*r)*np.ones(len(x)-2))+ np.diag(-r*np.ones(len(x)-3),1) + np.diag(-r*np.ones(len(x)-3),-1)
     B1=np.diag((2 - 2*r)*np.ones(len(x)-2))+ np.diag(r*np.ones(len(x)-3),1) + np.diag(r*np.ones(len(x)-3),-1)
     
-    # Boundary values are known and are added separately through b0_1 and b1_1.
+    # --- Boundary values are known and are added separately through b0_1 and b1_1 ---
 
     b0_1=np.zeros((len(x)-2))
     b1_1=np.zeros_like(b0_1)
 
-    # Matrices for cases where boundary nodes are included in the linear system. This is needed for Neumann and Robin boundary conditions.
+    # --- Matrices for cases where boundary nodes are included in the linear system. This is needed for Neumann and Robin boundary conditions ---
 
     A=np.diag((2 + 2*r)*np.ones(len(x) ))+ np.diag(-r*np.ones(len(x)-1),1) + np.diag(-r*np.ones(len(x)-1),-1) 
     B=np.diag((2 - 2*r)*np.ones(len(x) ))+ np.diag(r*np.ones(len(x)-1),1) + np.diag(r*np.ones(len(x)-1),-1)
 
-    # For Neumann and Robin conditions, b0 and b1 are full time-dependent boundary arrays. 
-    # They are filled once for all time levels and indexed
+    # --- For Neumann and Robin conditions, b0 and b1 are full time-dependent boundary arrays --- 
+    # --- They are filled once for all time levels and indexed ---
 
     b1=np.zeros((len(t),len(x)))
     b0=np.zeros_like(b1)
@@ -132,7 +132,7 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
 
         lu1,piv1 = lng.lu_factor(A1)
             
-        # For time-dependent Dirichlet boundary conditions, the boundary contribution must be updated at every time step.
+        # --- For time-dependent Dirichlet boundary conditions, the boundary contribution must be updated at every time step ---
 
         for n in range(0,len(t)-1):
             b0_1[0]=u[n,0]
@@ -140,38 +140,64 @@ def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
             b1_1[0]=u[n+1,0]
             b1_1[-1]=u[n+1,-1]
             
-            C1=B1@u[n,1:-1]+r*b0_1+r*b1_1
-            u[n+1,1:-1]=lng.lu_solve((lu1,piv1),C1)
+            # --- Compute B1 @ u[n, 1:-1] using slicing instead of constructing and multiplying by the full B1 matrix ---
+
+            C1 = np.empty(len(x) - 2)
+
+            if len(x) - 2 == 1:
+                C1[0] = (2 - 2*r) * u[n, 1]
+            else:
+                C1[0] = ((2 - 2*r) * u[n, 1]+ r * u[n, 2])
+                C1[1:-1] = (r * u[n, 1:-3]+ (2 - 2*r) * u[n, 2:-2]+ r * u[n, 3:-1])
+                C1[-1] = (r * u[n, -3]+ (2 - 2*r) * u[n, -2])
+
+            C1 += r*b0_1 + r*b1_1
+            u[n + 1, 1:-1] = lng.lu_solve((lu1, piv1), C1)
 
     elif a0==0 and aN==0 and k0!=0 and kN!=0:
         
-        b1[:,0]=b0[:,0]=-2*r*dx*(f0/k0)
-        b1[:,-1]=b0[:,-1]=-2*r*dx*(fN/kN)
-        A[0,1]=A[-1,-2]=-2*r
-        B[0,1]=B[-1,-2]=2*r
+        b0[:, 0] = b1[:, 0] = -2*r*dx*(f0 / k0)
+        b0[:, -1] = b1[:, -1] = -2*r*dx*(fN / kN)
+
+        A[0, 1] = A[-1, -2] = -2*r
 
         lu,piv = lng.lu_factor(A)
-            
+
         for n in range(len(t)-1):
-            C=B@u[n,:]+b0[n,:]+b1[n+1,:]
-            u[n+1,:]=lng.lu_solve((lu,piv),C)
+            
+            # --- Compute B @ u[n, :] using slicing instead of full matrix multiplication ---
+            C = np.empty(len(x))
+
+            C[0] = (2 - 2*r) * u[n, 0] + 2*r * u[n, 1]
+            C[1:-1] = (r * u[n, :-2]+ (2 - 2*r) * u[n, 1:-1]+ r * u[n, 2:])
+            C[-1] = 2*r * u[n, -2] + (2 - 2*r) * u[n, -1]
+            
+            C += b0[n, :] + b1[n + 1, :]
+            u[n + 1, :] = lng.lu_solve((lu, piv), C)
 
     elif k0!=0 and kN!=0:
         
-        b1[:,0]=b0[:,0]=2*r*dx*(f0/k0)
-        b1[:,-1]=b0[:,-1]=2*r*dx*(fN/kN)
-        A[0,1]=A[-1,-2]=-2*r
-        B[0,1]=B[-1,-2]=2*r
-        A[0,0]=2+2*r*(1-(a0/k0)*dx)
-        A[-1,-1]=2+2*r*(1-(aN/kN)*dx)
-        B[0,0]=2-2*r*(1-(a0/k0)*dx)
-        B[-1,-1]=2-2*r*(1+(aN/kN)*dx)
+        b0[:, 0] = b1[:, 0] = 2*r*dx*(f0 / k0)
+        b0[:, -1] = b1[:, -1] = 2*r*dx*(fN / kN)
 
-        lu,piv = lng.lu_factor(A)
+        A[0, 1] = A[-1, -2] = -2*r
+        A[0, 0] = 2 + 2*r*(1 - (a0/k0)*dx)
+        A[-1, -1] = 2 + 2*r*(1 - (aN/kN)*dx)
+
+        lu, piv = lng.lu_factor(A)
+
+        for n in range(len(t) - 1):
             
-        for n in range(len(t)-1):
-            C=B@u[n,:]+b0[n,:]+b1[n+1,:]
-            u[n+1,:]=lng.lu_solve((lu,piv),C)
+            # Compute B @ u[n, :] using slicing instead of full matrix multiplication.
+            C = np.empty(len(x))
+
+            C[0] = ((2 - 2*r*(1 - (a0/k0)*dx)) * u[n, 0]+ 2*r * u[n, 1])
+            C[1:-1] = (r * u[n, :-2]+ (2 - 2*r) * u[n, 1:-1]+ r * u[n, 2:])
+            C[-1] = (2*r * u[n, -2]+ (2 - 2*r*(1 + (aN/kN)*dx)) * u[n, -1])
+            
+            C += b0[n, :] + b1[n + 1, :]
+            u[n + 1, :] = lng.lu_solve((lu, piv), C)
+        
     else:
         n=0
         raise ValueError("Invalid boundary parameters.")
