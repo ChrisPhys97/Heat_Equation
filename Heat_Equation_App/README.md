@@ -115,3 +115,67 @@ Once the forward elimination is complete, the solution is recovered through back
 <p>
 In the implementation, <code>Ap_star</code> stores the modified main diagonal and <code>Q_star</code> stores the modified forcing vector generated during forward elimination. The backward substitution then reconstructs the solution vector from the last node to the first.
 </p>
+
+<h3>Boundary Condition Handling</h3>
+
+<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+
+<p>
+The Heat Equation App employs the general linear boundary condition
+</p>
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f-au"/>
+</p>
+
+<p>
+where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. This formulation allows the three most common boundary-condition types to be treated within a unified framework.
+</p>
+
+<ul>
+<li>
+<strong>Dirichlet boundary conditions</strong> are obtained by setting
+<code>k=0</code>, giving
+</li>
+</ul>
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?u=\frac{f}{a}"/>
+</p>
+
+<ul>
+<li>
+<strong>Neumann boundary conditions</strong> are obtained by setting
+<code>a=0</code>, yielding
+</li>
+</ul>
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f"/>
+</p>
+
+<ul>
+<li>
+<strong>Robin boundary conditions</strong> correspond to the general case where both coefficients are non-zero:
+</li>
+</ul>
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f-au"/>
+</p>
+
+<p>
+The program automatically determines the appropriate numerical treatment by examining the boundary coefficients supplied by the user:
+</p>
+
+<ul>
+<li><code>k=0</code> and <code>a≠0</code> &rarr; Dirichlet.</li>
+<li><code>a=0</code> and <code>k≠0</code> &rarr; Neumann.</li>
+<li><code>a≠0</code> and <code>k≠0</code> &rarr; Robin.</li>
+</ul>
+
+<p>
+This unified implementation avoids the need for separate solvers for different boundary-condition types and naturally accommodates both steady-state and time-dependent boundary data.
+</p>
+
+</div>
