@@ -109,7 +109,7 @@ Once the forward elimination is complete, the solution is recovered through back
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\Phi_i=\frac{Q_i^*-A_E^i\Phi_{i+1}}{A_P^{i*}},\qquad i=N-1,\ldots,0" />
+  <img src="https://latex.codecogs.com/svg.image?\Phi_i=\frac{Q_i^*-A_E^i\Phi_{i+1}}{A_P^{i*}},\qquad{i=N-1,\ldots,0}" />
 </p>
 
 <p>
