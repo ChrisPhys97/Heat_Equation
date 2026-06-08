@@ -24,7 +24,7 @@ The Heat Equation App solves the one-dimensional heat equation
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\frac{\partial&space;u}{\partial&space;t}=a_{T}\frac{\partial^2&space;u}{\partial&space;x^2}" />
+  <img src="https://latex.codecogs.com/svg.image?\frac{\partial&space;u}{\partial&space;t}=a_{T}\frac{\partial^2&space;u}{\partial&space;x^2}\qquad{(1)}" />
 </p>
 
 <p>
@@ -32,7 +32,7 @@ where <code>u(x,t)</code> denotes the temperature distribution and <code>a<sub>T
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au" />
+  <img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au\qquad{(2)}" />
 </p>
 
 <p>
@@ -177,5 +177,40 @@ The program automatically determines the appropriate numerical treatment by exam
 <p>
 This unified implementation avoids the need for separate solvers for different boundary-condition types and naturally accommodates both steady-state and time-dependent boundary data. At present, mixed boundary-condition configurations, such as Dirichlet on one side and Neumann or Robin on the other, are not yet implemented. This is a planned extension of the boundary-condition handling.
 </p>
+
+<h2>Graphical User Interface</h2>
+
+<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+
+<p>
+The graphical interface is implemented in <code>Mini_1D_Heat_App.py</code> using the Tkinter library. Its purpose is to provide a simple user-friendly layer between the user and the numerical routines defined in <code>HeatLib.py</code>.
+</p>
+
+<p>
+When the application starts, the main window allows the user to select the numerical method used to solve the heat equation. The available options are:
+</p>
+
+<ul>
+  <li><strong>FTCS</strong>: explicit Forward-Time Centered-Space method.</li>
+  <li><strong>Crank–Nicolson</strong>: implicit method solved using the Thomas algorithm.</li>
+</ul>
+
+<p>
+After selecting the method and pressing <code>Submit</code>, a second window is opened where the user defines the initial condition, boundary-condition coefficients, heat flux terms, spatial step, time step, domain length, and final simulation time.
+</p>
+
+<p>
+The GUI collects the user input from the entry fields and passes these values to the corresponding solver function in <code>HeatLib.py</code>. String expressions such as <code>sin(pi*x)</code>, <code>cos(pi*x)</code>, or time-dependent boundary terms such as <code>sin(2*pi*t)</code> are passed directly to the numerical library, where they are evaluated using <code>numexpr</code>.
+</p>
+
+<p>
+The interface also performs basic input validation. If a numerical field contains invalid data, a warning message is displayed instead of running the simulation. After successful input collection, the selected numerical method is executed and the resulting temperature field is visualized through an animated plot.
+</p>
+
+<p>
+The GUI is intentionally kept separate from the numerical solver. This separation makes the project easier to maintain and extend: the interface handles user interaction, while <code>HeatLib.py</code> contains the mathematical and numerical implementation.
+</p>
+
+</div>
 
 </div>
