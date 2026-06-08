@@ -6,6 +6,21 @@ The available numerical methods are the Forward-Time Centered-Space (FTCS) schem
 
 </div>
 
-# Mathematical Model
+## Project Structure
+
+The application is divided into two modules:
+
+- **Mini_1D_Heat_App.py**: Tkinter-based GUI responsible for user interaction and problem setup.
+- **HeatLib.py**: Numerical library implementing the FTCS and Crank–Nicolson schemes, boundary-condition treatment, the Thomas algorithm for tridiagonal systems, and solution visualization.
+
+The GUI collects the user-defined parameters and passes them to HeatLib, where the numerical solution of the heat equation is performed.
+
+## Mathematical Model
+
+- The first method provides the simple Second order Centered-space scheme with explict Euler time discritization, written via Numpy Slicing.
+
+- The second method it is the Crank-Nicolson where the Tridiagonal System is sloved with Thomas algorithm.
+
+Both shemes are defined in the begining of the script.
 
 
