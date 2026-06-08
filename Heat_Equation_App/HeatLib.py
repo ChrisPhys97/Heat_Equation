@@ -32,36 +32,31 @@ def Animation(dt,n,t,x,u):
 def CDS(r,n,u): return r*u[n,2:]+(1-2*r)*u[n,1:-1]+r*u[n,:-2]
 
 def thomas_solver(Aw, Ap, Ae, Q):
-    """
-    Solve a tridiagonal system using the Thomas algorithm.
-
-    A_west: sub-diagonal, length N-1
-    A_p:  main diagonal, length N
-    A_east: super-diagonal, length N-1
-    Q:   right-hand side vector, length N
-    """
+    
     n = len(Ap)
-
     Ae_prime = np.zeros(n - 1)
     Q_prime = np.zeros(n)
-
+    
+    # --- Initial forward elimination step ---
     Ae_prime[0] = Ae[0] / Ap[0]
     Q_prime[0] = Q[0] / Ap[0]
-
+    
+    # --- Forward sweep ---
     for i in range(1, n - 1):
-        denominator = Ap[i] - Aw[i - 1] * Ae_prime[i - 1]
-        Ae_prime[i] = Ae[i] / denominator
-        Q_prime[i] = (Q[i] - Aw[i - 1] * Q_prime[i - 1]) / denominator
-
-    denominator = Ap[-1] - Aw[-1] * Ae_prime[-1]
-    Q_prime[-1] = (Q[-1] - Aw[-1] * Q_prime[-2]) / denominator
+        Ap_prime = Ap[i] - Aw[i - 1] * Ae_prime[i - 1]
+        Ae_prime[i] = Ae[i] / Ap_prime
+        Q_prime[i] = (Q[i] - Aw[i - 1] * Q_prime[i - 1]) / Ap_prime
+        
+    # --- Final elimination step ---
+    Ap_prime = Ap[-1] - Aw[-1] * Ae_prime[-1]
+    Q_prime[-1] = (Q[-1] - Aw[-1] * Q_prime[-2]) / Ap_prime
 
     solution = np.zeros(n)
     solution[-1] = Q_prime[-1]
 
     for i in range(n - 2, -1, -1):
         solution[i] = Q_prime[i] - Ae_prime[i] * solution[i + 1]
-
+        
     return solution
 
 # --- Definition of Forward Time - CDS function with fixed diffusivity a=1 ---
