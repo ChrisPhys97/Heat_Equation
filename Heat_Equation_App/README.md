@@ -125,7 +125,7 @@ The Heat Equation App employs the general linear boundary condition
 </p>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f-au"/>
+<img src="https://latex.codecogs.com/svg.image?{k\frac{\partial u}{\partial x}}={f-au}"/>
 </p>
 
 <p>
