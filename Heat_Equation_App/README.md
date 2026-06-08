@@ -97,7 +97,7 @@ The first row is not modified:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*0}=A_P^0,\qquad Q_0^*=Q_0" />
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*0}=A_P^0, Q_0^*=Q_0" />
 </p>
 
 <p>
