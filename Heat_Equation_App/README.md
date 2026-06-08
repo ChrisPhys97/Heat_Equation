@@ -125,7 +125,7 @@ The Heat Equation App employs the general linear boundary condition
 </p>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?{k\frac{\partial u}{\partial x}}={f-au}"/>
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au"/>
 </p>
 
 <p>
@@ -151,7 +151,7 @@ where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. Thi
 </ul>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f"/>
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f"/>
 </p>
 
 <ul>
@@ -161,7 +161,7 @@ where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. Thi
 </ul>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial u}{\partial x}=f-au"/>
+<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au"/>
 </p>
 
 <p>
@@ -175,7 +175,7 @@ The program automatically determines the appropriate numerical treatment by exam
 </ul>
 
 <p>
-This unified implementation avoids the need for separate solvers for different boundary-condition types and naturally accommodates both steady-state and time-dependent boundary data.
+This unified implementation avoids the need for separate solvers for different boundary-condition types and naturally accommodates both steady-state and time-dependent boundary data. At present, mixed boundary-condition configurations, such as Dirichlet on one side and Neumann or Robin on the other, are not yet implemented. This is a planned extension of the boundary-condition handling.
 </p>
 
 </div>
