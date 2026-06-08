@@ -15,13 +15,84 @@ The application is divided into two modules:
 
 The GUI collects the user-defined parameters and passes them to HeatLib, where the numerical solution of the heat equation is performed.
 
-## Mathematical Model
+Mathematical Model
 
-- The first method provides the simple Second order Centered-space scheme with explict Euler time discritization, written via Numpy Slicing.
+The Heat Equation App solves the one-dimensional heat equation
 
-- The second method it is the Crank-Nicolson where the Tridiagonal System is sloved with Thomas algorithm.
+a\frac{\partial^2 u}{\partial x^2},
+]
 
-Both shemes are defined in the begining of the script. When CDS is implimented, at each node the corresponding equation is given by
+where (u(x,t)) denotes the temperature distribution and (a) is the thermal diffusivity. The boundary conditions are written in the general form
 
-A_{W}^{i} Φ_{i-1} + A_{P}^{i} Φ_{i} + A_{E}^{i} Φ_{i+1} = Q
+[
+k\frac{\partial u}{\partial x}=f-au,
+]
+
+which allows the implementation of Dirichlet, Neumann, and Robin boundary conditions by appropriate choices of the coefficients (a) and (k).
+
+Numerical Methods
+
+Two finite-difference schemes are implemented.
+
+Forward-Time Centered-Space (FTCS): an explicit method combining a forward Euler discretization in time with a second-order central difference approximation in space. The spatial discretization is implemented using NumPy slicing for computational efficiency.
+Crank–Nicolson: an implicit second-order accurate method obtained by averaging the spatial operator between consecutive time levels. At each time step, the method leads to the solution of a tridiagonal linear system.
+Tridiagonal System
+
+The Crank–Nicolson discretization produces, for each node,
+
+Q_i,
+]
+
+where
+
+(A_W) denotes the lower diagonal coefficients,
+(A_P) the main diagonal coefficients,
+(A_E) the upper diagonal coefficients,
+(Q) the forcing vector.
+
+Consequently, the resulting coefficient matrix is tridiagonal.
+
+Thomas Algorithm
+
+The tridiagonal system is solved using the Thomas algorithm, which is a specialized form of Gaussian elimination for tridiagonal matrices. Instead of storing and manipulating the full coefficient matrix, the algorithm operates directly on the three diagonals.
+
+During the forward sweep, modified coefficients are computed recursively,
+
+\frac{A_E^i}
+{A_P^i-A_W^iA_E^{*(i-1)}},
+]
+
+and
+
+\frac{
+Q_i-A_W^iQ_{i-1}^*
+}
+{
+A_P^i-A_W^iA_E^{*(i-1)}
+}.
+]
+
+The first row provides the initial values,
+
+\frac{Q_0}{A_P^0}.
+]
+
+Once the forward sweep is completed, the solution is recovered through backward substitution,
+
+[
+\Phi_N=Q_N^*,
+]
+
+and
+
+Q_i^*
+
+A_E^{*i}\Phi_{i+1},
+]
+
+for (i=N-1,\ldots,0).
+
+In the implementation, the arrays Ae_prime and Q_prime correspond to the modified upper diagonal coefficients and modified forcing terms generated during the forward sweep, while the backward sweep reconstructs the solution vector. Since the Thomas algorithm exploits the tridiagonal structure of the Crank–Nicolson matrix, it requires only (O(N)) operations and significantly reduces the computational cost compared with general-purpose linear system solvers.
+
+
 
