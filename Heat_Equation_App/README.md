@@ -81,15 +81,21 @@ During the forward sweep, modified coefficients are computed recursively:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-A_W^iA_E^{*(i-1)}" /> which corresponds to <code>Ap_prime</code> array.
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-A_W^iA_E^{*(i-1)}" />
+  &nbsp;&nbsp;&nbsp;
+  which corresponds to <code>Ap_prime</code>.
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" /> which corresponds to <code>Ae_prime</code> array.
+  <img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" /> 
+  &nbsp;&nbsp;&nbsp;
+  which corresponds to <code>Ae_prime</code> array.
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*=\frac{Q_i-A_W^iQ_{i-1}^*}{A_P^{*i}}" /> which corresponds to <code>Q_prime</code> array.
+  <img src="https://latex.codecogs.com/svg.image?Q_i^*=\frac{Q_i-A_W^iQ_{i-1}^*}{A_P^{*i}}" /> 
+  &nbsp;&nbsp;&nbsp;
+  which corresponds to <code>Q_prime</code> array.
 </p>
 
 <p>
@@ -110,15 +116,6 @@ Once the forward sweep is completed, the solution is recovered through backward 
 
 <p align="center">
   <img src="https://latex.codecogs.com/svg.image?\Phi_i=Q_i^*-A_E^{*i}\Phi_{i+1},\qquad&space;i=N-1,\ldots,0" />
-</p>
-
-<p>
-In the implementation, the array <code>Ae_prime</code> stores the corresponding quantity,
-<img src="https://latex.codecogs.com/svg.image?A_E^{*i}={A_E^i}/{A_P^{*i}" />,
-while <code>Q_prime</code> contains the modified forcing terms generated during the forward elimination stage.
-The backward sweep subsequently reconstructs the solution vector by successively evaluating the unknowns from the last node to the first.
-Since the Thomas algorithm exploits the tridiagonal structure of the Crank–Nicolson coefficient matrix, it requires only
-<code>O(N)</code> operations and significantly reduces the computational cost compared with general-purpose linear system solvers.
 </p>
 
 </div>
