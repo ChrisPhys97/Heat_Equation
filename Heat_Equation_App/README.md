@@ -28,7 +28,7 @@ The Heat Equation App solves the one-dimensional heat equation
 </p>
 
 <p>
-where <code>u(x,t)</code> denotes the temperature distribution and <code>a_{T}</code> is the thermal diffusivity. The boundary conditions are written in the general form
+where <code>u(x,t)</code> denotes the temperature distribution and <code>a_T</code> is the thermal diffusivity. The boundary conditions are written in the general form
 </p>
 
 <p align="center">
@@ -81,11 +81,11 @@ During the forward sweep, modified coefficients are computed recursively:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^{i} - \frac{{A_W^iA_E^{*(i-1)}{A_P^{i-1}}}" />
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i - \frac{A_W^iA_E^{*(i-1)}{A_P^{i-1}}" />
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*=\frac{Q_i-A_W^iQ_{i-1}^*}{A_P^i-A_W^iA_E^{*(i-1)}}" />
+  <img src="https://latex.codecogs.com/svg.image?Q_i^*= Q_i - \frac{A_W^iQ_{i-1}^*}{A_P^{i-1}}" />
 </p>
 
 <p>
