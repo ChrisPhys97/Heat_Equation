@@ -73,49 +73,45 @@ where <code>A<sub>W</sub></code> denotes the lower diagonal coefficient, <code>A
 <h3>Thomas Algorithm</h3>
 
 <p>
-The tridiagonal system is solved using the Thomas algorithm, which is a specialized form of Gaussian elimination for tridiagonal matrices. Instead of storing and manipulating the full coefficient matrix, the algorithm operates directly on the three diagonals.
+The tridiagonal system is solved using the Thomas algorithm, a specialized form of Gaussian elimination for tridiagonal matrices. Instead of storing and manipulating the full coefficient matrix, the algorithm operates directly on the three diagonals.
 </p>
 
 <p>
-During the forward sweep, modified coefficients are computed recursively:
+During the forward elimination step, the main diagonal and forcing term are modified recursively:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-A_W^iA_E^{*(i-1)}" />
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-\frac{A_W^iA_E^{i-1}}{A_P^{*(i-1)}}" />
   &nbsp;&nbsp;&nbsp;
-  which corresponds to <code>Ap_prime</code>.
+  which corresponds to <code>Ap_star</code>.
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" /> 
+  <img src="https://latex.codecogs.com/svg.image?Q_i^*=Q_i-\frac{A_W^iQ_{i-1}^*}{A_P^{*(i-1)}}" />
   &nbsp;&nbsp;&nbsp;
-  which corresponds to <code>Ae_prime</code> array.
-</p>
-
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*=Q_i-\frac{A_W^iQ_{i-1}^*}{A_P^{*i}}" /> 
-  &nbsp;&nbsp;&nbsp;
-  which corresponds to <code>Q_prime</code> array.
+  which corresponds to <code>Q_star</code>.
 </p>
 
 <p>
-The first row provides the initial values:
+The first row is not modified:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_E^{*0}=\frac{A_E^0}{A_P^0},\qquad&space;Q_0^*=\frac{Q_0}{A_P^0}" />
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*0}=A_P^0,\qquad Q_0^*=Q_0" />
 </p>
 
 <p>
-Once the forward sweep is completed, the solution is recovered through backward substitution:
+Once the forward elimination is complete, the solution is recovered through backward substitution:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\Phi_N=Q_N^*" />
+  <img src="https://latex.codecogs.com/svg.image?\Phi_N=\frac{Q_N^*}{A_P^{*N}}" />
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\Phi_i=\frac{Q_i^*}{A_P^{*i}}-A_E^{*i}\Phi_{i+1},\qquad&space;i=N-1,\ldots,0" />
+  <img src="https://latex.codecogs.com/svg.image?\Phi_i=\frac{Q_i^*-A_E^i\Phi_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0" />
 </p>
 
-</div>
+<p>
+In the implementation, <code>Ap_star</code> stores the modified main diagonal and <code>Q_star</code> stores the modified forcing vector generated during forward elimination. The backward substitution then reconstructs the solution vector from the last node to the first.
+</p>
