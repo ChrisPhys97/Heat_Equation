@@ -15,7 +15,9 @@ The application is divided into two modules:
 
 The GUI collects the user-defined parameters and passes them to HeatLib, where the numerical solution of the heat equation is performed.
 
-Mathematical Model
+## Mathematical Model
+
+<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
 The Heat Equation App solves the one-dimensional heat equation
 
@@ -30,6 +32,7 @@ k\frac{\partial u}{\partial x}=f-au,
 
 which allows the implementation of Dirichlet, Neumann, and Robin boundary conditions by appropriate choices of the coefficients (a) and (k).
 
+</div>
 Numerical Methods
 
 Two finite-difference schemes are implemented.
