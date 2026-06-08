@@ -114,7 +114,7 @@ Once the forward sweep is completed, the solution is recovered through backward 
 
 <p>
 In the implementation, the array <code>Ae_prime</code> stores the corresponding quantity,
-<img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" />,
+<img src="https://latex.codecogs.com/svg.image?A_E^{*i}={A_E^i}/{A_P^{*i}" />,
 while <code>Q_prime</code> contains the modified forcing terms generated during the forward elimination stage.
 The backward sweep subsequently reconstructs the solution vector by successively evaluating the unknowns from the last node to the first.
 Since the Thomas algorithm exploits the tridiagonal structure of the Crank–Nicolson coefficient matrix, it requires only
