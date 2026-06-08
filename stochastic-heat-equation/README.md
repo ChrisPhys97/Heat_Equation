@@ -69,7 +69,7 @@ Volume integrals approximated by the product of the cell-average value and the c
 </ul>
 
 <p align="center">
-u<sub>P</sub> ΔV
+<img src="https://latex.codecogs.com/png.image?u_P\Delta V"/>
 </p>
 
 <ul>
