@@ -21,6 +21,7 @@ The GUI collects the user-defined parameters and passes them to HeatLib, where t
 
 - The second method it is the Crank-Nicolson where the Tridiagonal System is sloved with Thomas algorithm.
 
-Both shemes are defined in the begining of the script.
+Both shemes are defined in the begining of the script. When CDS is implimented, at each node the corresponding equation is given by
 
+A_{W}^{i} Φ_{i-1} + A_{P}^{i} Φ_{i} + A_{E}^{i} Φ_{i+1} = Q
 
