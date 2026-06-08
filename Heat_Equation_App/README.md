@@ -81,15 +81,15 @@ During the forward sweep, modified coefficients are computed recursively:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-A_W^iA_E^{*(i-1)}" />
+  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-A_W^iA_E^{*(i-1)}" /> which corresponds to <code>Ap_prime</code> array.
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" />
+  <img src="https://latex.codecogs.com/svg.image?A_E^{*i}=\frac{A_E^i}{A_P^{*i}}" /> which corresponds to <code>Ae_prime</code> array.
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*=\frac{Q_i-A_W^iQ_{i-1}^*}{A_P^{*i}}" />
+  <img src="https://latex.codecogs.com/svg.image?Q_i^*=\frac{Q_i-A_W^iQ_{i-1}^*}{A_P^{*i}}" /> which corresponds to <code>Q_prime</code> array.
 </p>
 
 <p>
