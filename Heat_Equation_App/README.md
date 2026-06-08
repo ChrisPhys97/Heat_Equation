@@ -93,7 +93,7 @@ During the forward sweep, modified coefficients are computed recursively:
 </p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*= Q_i-\frac{A_W^iQ_{i-1}^*}{A_P^{*i}}" /> 
+  <img src="https://latex.codecogs.com/svg.image?Q_i^*=Q_i-\frac{A_W^iQ_{i-1}^*}{A_P^{*i}}" /> 
   &nbsp;&nbsp;&nbsp;
   which corresponds to <code>Q_prime</code> array.
 </p>
