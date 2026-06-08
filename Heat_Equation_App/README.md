@@ -36,7 +36,7 @@ where <code>u(x,t)</code> denotes the temperature distribution and <code>a<sub>T
 </p>
 
 <p>
-which allows the implementation of Dirichlet, Neumann, and Robin boundary conditions by appropriate choices of the coefficients <code>a</code> and <code>k</code>.
+which allows the implementation of Dirichlet, Neumann, and Robin boundary conditions by appropriate choices of the coefficients <code>a</code>, <code>k</code> and <code>f</code>.
 </p>
 
 <h3>Numerical Methods</h3>
@@ -113,7 +113,7 @@ Once the forward sweep is completed, the solution is recovered through backward 
 </p>
 
 <p>
-In the implementation, the arrays <code>Ae_prime</code> and <code>Q_prime</code> correspond to the modified upper diagonal coefficients and modified forcing terms generated during the forward sweep. The backward sweep then reconstructs the solution vector. Since the Thomas algorithm exploits the tridiagonal structure of the Crank–Nicolson matrix, it requires only <code>O(N)</code> operations and significantly reduces the computational cost compared with general-purpose linear system solvers.
+In the implementation, the arrays <code>Ae_prime</code> coressponds to the fraction <code>A_E^{*i}=\frac{A_E^i}{A_P^{*i}}<code> and <code>Q_prime</code> correspond to the modified upper diagonal coefficients and modified forcing terms generated during the forward sweep. The backward sweep then reconstructs the solution vector. Since the Thomas algorithm exploits the tridiagonal structure of the Crank–Nicolson matrix, it requires only <code>O(N)</code> operations and significantly reduces the computational cost compared with general-purpose linear system solvers.
 </p>
 
 </div>
