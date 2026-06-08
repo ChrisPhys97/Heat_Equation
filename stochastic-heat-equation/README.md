@@ -14,7 +14,7 @@ Source locations whose <i>x</i>-coordinates follow the probability density funct
 </li>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi x)" />
+<img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi&space;x)" />
 </p>
 
 <li>
@@ -69,7 +69,7 @@ Volume integrals approximated by the product of the cell-average value and the c
 </ul>
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.image?\bar{u}\Delta V,\qquad\bar{u}=u_P" />
+<img src="https://latex.codecogs.com/svg.image?{\bar{u}\Delta V},\qquad{\bar{u}=u_P}" />
 </p>
 
 <ul>
