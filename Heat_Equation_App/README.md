@@ -121,15 +121,7 @@ In the implementation, <code>Ap_star</code> stores the modified main diagonal an
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
 <p>
-The Heat Equation App employs the general linear boundary condition
-</p>
-
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au"/>
-</p>
-
-<p>
-where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. This formulation allows the three most common boundary-condition types to be treated within a unified framework.
+The Heat Equation App employs the general linear boundary condition, equation (2), where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. This formulation allows the three most common boundary-condition types to be treated within a unified framework.
 </p>
 
 <ul>
