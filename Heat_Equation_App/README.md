@@ -205,6 +205,8 @@ The GUI is intentionally kept separate from the numerical solver. This separatio
 
 </div>
 
+<h2>Future Development</h2>
+
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
 <ul>
