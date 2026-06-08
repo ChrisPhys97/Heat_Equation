@@ -205,4 +205,32 @@ The GUI is intentionally kept separate from the numerical solver. This separatio
 
 </div>
 
+<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+
+<ul>
+  <li>
+    <strong>Mixed boundary conditions:</strong>
+    support for configurations such as Dirichlet–Neumann, Dirichlet–Robin, and Neumann–Robin boundary conditions.
+  </li>
+
+  <li>
+    <strong>Returning numerical arrays:</strong>
+    modification of the solver functions so that <code>x</code>, <code>t</code>, and <code>u</code> are returned for further post-processing, validation, and custom visualization.
+  </li>
+
+  <li>
+    <strong>Variable thermal diffusivity:</strong>
+    extension of the mathematical model to allow the diffusivity coefficient to vary with space or temperature.
+  </li>
+</ul>
+
+</div>
+
+### References
+
+Ferziger, J. H., & Perić, M.
+Computational Methods for Fluid Dynamics,
+4th Edition,
+Springer
+
 </div>
