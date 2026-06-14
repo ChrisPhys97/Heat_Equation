@@ -1,4 +1,4 @@
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 The Heat Equation App is a Python-based solver for one-dimensional heat diffusion problems. The program provides an interactive Graphical User Interface (GUI) that allows users to choose between two numerical methods, specify the boundary conditions, and define the physical and numerical parameters of the problem, including the spatial domain, simulation time, and discretization steps.
 
@@ -17,7 +17,7 @@ The GUI collects the user-defined parameters and passes them to HeatLib, where t
 
 <h2>Mathematical Model</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The Heat Equation App solves the one-dimensional heat equation
@@ -118,7 +118,7 @@ In the implementation, <code>Ap_star</code> stores the modified main diagonal an
 
 <h3>Boundary Condition Handling</h3>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The Heat Equation App employs the general linear boundary condition, equation (2), where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. This formulation allows the three most common boundary-condition types to be treated within a unified framework.
@@ -172,7 +172,7 @@ This unified implementation avoids the need for separate solvers for different b
 
 <h2>Graphical User Interface</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The graphical interface is implemented in <code>Mini_1D_Heat_App.py</code> using the Tkinter library. Its purpose is to provide a simple user-friendly layer between the user and the numerical routines defined in <code>HeatLib.py</code>.
@@ -207,7 +207,7 @@ The GUI is intentionally kept separate from the numerical solver. This separatio
 
 <h2>Future Development</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <ul>
   <li>
