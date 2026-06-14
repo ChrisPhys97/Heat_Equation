@@ -1,6 +1,6 @@
 <h2 align="center">Heat Equation</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 17px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 This repository contains educational and scientific Python projects developed within the framework of Numerical Methods and Computational Physics. The projects focus on heat transfer and diffusion phenomena, combining classical numerical techniques with scientific computing and interactive visualization. Their objective is to provide both practical simulation tools and accessible implementations of partial differential equation (PDE) solvers.
@@ -16,7 +16,7 @@ The repository currently consists of two independent projects:
 
 <h3>Mini 1D Heat Equation App</h3>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 17px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The <b>Mini 1D Heat Equation App</b> is an interactive Python application for solving one-dimensional heat diffusion problems. The project combines a Tkinter-based Graphical User Interface (GUI) with a dedicated numerical library implementing the underlying finite-difference algorithms.
@@ -52,7 +52,7 @@ The project serves both as a practical heat equation solver and as an educationa
 
 <h3>Stochastic Heat Equation</h3>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 17px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The <b>Stochastic Heat Equation</b> is a two-dimensional advection-diffusion simulation originally developed as a numerical methods coursework project and progressively extended into a more comprehensive computational model.
@@ -90,7 +90,7 @@ The notebook combines stochastic processes, numerical discretization techniques,
 
 <h3>Future Development</h3>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 17px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
 The long-term objective of this repository is to progressively incorporate more advanced numerical techniques for heat-transfer and diffusion problems while preserving the educational character of the projects.
@@ -103,8 +103,6 @@ Planned developments include:
 <ul>
 
 <li>Support for mixed boundary conditions in the one-dimensional solver.</li>
-
-<li>Returning numerical solution arrays for post-processing and custom visualization.</li>
 
 <li>Extension to variable thermal diffusivity models.</li>
 
