@@ -1,6 +1,6 @@
-<h1 align="center">Heat Equation</h1>
+<h2 align="center">Heat Equation</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+<div style="text-align: justify; text-justify: inter-word; font-size: 17px;">
 
 <p>
 This repository contains educational and scientific Python projects developed within the framework of Numerical Methods and Computational Physics. The projects focus on heat transfer and diffusion phenomena, combining classical numerical techniques with scientific computing and interactive visualization. Their objective is to provide both practical simulation tools and accessible implementations of partial differential equation (PDE) solvers.
@@ -14,7 +14,7 @@ The repository currently consists of two independent projects:
 
 ---
 
-<h2>Mini 1D Heat Equation App</h2>
+<h3>Mini 1D Heat Equation App</h3>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
@@ -50,7 +50,7 @@ The project serves both as a practical heat equation solver and as an educationa
 
 ---
 
-<h2>Stochastic Heat Equation</h2>
+<h3>Stochastic Heat Equation</h3>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
@@ -88,7 +88,7 @@ The notebook combines stochastic processes, numerical discretization techniques,
 
 ---
 
-<h2>Future Development</h2>
+<h3>Future Development</h3>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
