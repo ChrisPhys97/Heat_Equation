@@ -7,7 +7,7 @@ This repository contains educational and scientific Python projects developed wi
 </p>
 
 <p>
-The repository currently consists of two independent projects:
+The repository currently consists of three independent projects:
 </p>
 
 </div>
