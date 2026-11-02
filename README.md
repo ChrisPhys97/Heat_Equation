@@ -55,8 +55,20 @@ The project serves both as a practical heat equation solver and as an educationa
 <div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
 
 <p>
-The <b>Compatibility, Ghost Points and Animation</b> notebook is an educational notebook designed to demonstrate three important aspects of numerical methods through two one-dimensional examples of the heat equation: compatibility between initial and boundary conditions, the use of ghost points to impose boundary conditions, and the visualization of numerical solutions through animations
+The <b>Compatibility, Ghost Points and Animation</b> notebook is an educational notebook designed to demonstrate three important aspects of numerical methods through two one-dimensional examples of the heat equation: compatibility between initial and boundary conditions, the use of ghost points to impose boundary conditions, and the visualization of numerical solutions through animations.
 </p>
+
+<ul>
+
+<li><b>Compatibility:</b> Demonstration of compatible and incompatible initial and boundary conditions, along with a proposed treatment for incompatible cases.</li>
+
+<li><b>Ghost Points:</b> Implementation of ghost points for imposing boundary conditions using a simple finite volume method (FVM).</li>
+
+<li><b>Animation:</b> A visualization approach that accounts for the gaps between the boundary cell centers and the physical boundaries in a cell-centered FVM grid.</li>
+
+</ul>
+
+</div>
 
 ---
 
