@@ -62,11 +62,15 @@ The <b>Compatibility, Ghost Points and Animation</b> notebook is an educational 
 
 <li><b>Compatibility:</b> Demonstration of compatible and incompatible initial and boundary conditions, along with a proposed treatment for incompatible cases.</li>
 
-<li><b>Ghost Points:</b> Implementation of ghost points for imposing boundary conditions using a simple finite volume method (FVM).</li>
+<li><b>Ghost Points:</b> Implementation of ghost points for imposing boundary conditions using a simple finite volume method (FVM), where ghost-cell values are explicitly stored in the solution array.</li>
 
 <li><b>Animation:</b> A visualization approach that accounts for the gaps between the boundary cell centers and the physical boundaries in a cell-centered FVM grid.</li>
 
 </ul>
+
+<p>
+The notebook provides a practical introduction to these numerical techniques, emphasizing their mathematical interpretation, implementation, and visualization through simple heat diffusion examples.
+</p>
 
 </div>
 
@@ -93,6 +97,8 @@ The project incorporates:
 <li>Discrete-time Poisson source activation.</li>
 
 <li>Finite Volume discretization.</li>
+
+<li>Ghost-cell treatment of boundary conditions through algebraic elimination of ghost values from the discretized equations.</li>
 
 <li>Upwind and Central Differencing schemes.</li>
 
