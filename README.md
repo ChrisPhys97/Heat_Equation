@@ -50,6 +50,15 @@ The project serves both as a practical heat equation solver and as an educationa
 
 ---
 
+<h3>Cmpatibility, Ghost Points and Animation</h3>
+
+<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+
+<p>
+  
+</p>
+---
+
 <h3>Stochastic Heat Equation</h3>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
