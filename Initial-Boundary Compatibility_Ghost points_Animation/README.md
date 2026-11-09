@@ -43,7 +43,7 @@ These conditions are incompatible with the initial profile because the temperatu
 ```math
 u(0,t) = u(L,t) =
 \begin{cases}
-\frac{0.5t}{T_r} & \text{if } 0 \le t < T_r \\
+0.5\frac{t}{T_r} & \text{if } 0 \le t < T_r \\
 0.5 & \text{if } t \ge T_r
 \end{cases}
 ```
@@ -52,7 +52,7 @@ where $T_{r}$ is the transition time.
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
   
-This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at \(t=T_r\).
+This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at $t=T_{r}$.
 
 Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 </div>
