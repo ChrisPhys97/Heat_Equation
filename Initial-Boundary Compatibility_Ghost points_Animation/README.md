@@ -1,8 +1,6 @@
-```html
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
-```
 
 As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation.
 
@@ -52,6 +50,4 @@ This function preserves continuity and satisfies the zeroth-order initial-bounda
 
 Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 
-```html
 </div>
-```
