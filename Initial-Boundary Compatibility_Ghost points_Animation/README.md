@@ -41,10 +41,10 @@ These conditions are incompatible with the initial profile because the temperatu
 </div>
 
 ```math
-u(0,t)=u(L,t)=
+u(0,t) = u(L,t) =
 \begin{cases}
-0.5\frac{t}{T_r}, & 0\leq t<T_r,\\
-0.5, & t\geq T_r.
+\frac{0.5t}{T_r} & \text{if } 0 \le t < T_r \\
+0.5 & \text{if } t \ge T_r
 \end{cases}
 ```
 
