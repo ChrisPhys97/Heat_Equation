@@ -24,8 +24,8 @@ On the other hand, an incompatible case arises when we retain the same initial t
 $$
 u(0,t)=u(L,t)=
 \begin{cases}
-0, & t=0,\\
-0.5, & t>0.
+0, & t=0,\\[4pt]
+0.5, & t\gt 0.
 \end{cases}
 $$
 
