@@ -38,13 +38,13 @@ One possible approach is to introduce a time-dependent boundary temperature that
 
 $$
 u(0,t)=u(L,t)=
-\begin{cases}
+\begin{array}{ll}
 0.5\dfrac{t}{T_r}, & 0\leq t<T_r,\\
 0.5, & t\geq T_r,
-\end{cases}
+\end{array}
 $$
 
-where \(T_r\) is the transition time.
+where $T_{r}$ is the transition time.
 
 This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at \(t=T_r\).
 
