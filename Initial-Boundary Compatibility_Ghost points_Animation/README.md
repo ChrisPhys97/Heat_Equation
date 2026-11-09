@@ -8,7 +8,7 @@ $$u(x,0)=\sin(\pi x)$$
 
 and the boundary conditions at both sides are 
 
-$$u(0,t)=u(L,t)=0,\quadd t>0$$. 
+$$u(0,t)=u(L,t)=0,\qquad t>0$$. 
 
 In this case $u$ at space-time domain is continous because sine at both boundaries give zero temperature. 
 
@@ -17,7 +17,7 @@ On the other hand, an incompatible case is when we want the same initial profile
 $$
 u(0,t)=u(L,t)=
 \begin{cases}
-0, & t=0,\\[4pt]
+0, & t=0,\\
 0.5, & t>0.
 \end{cases}
 $$
