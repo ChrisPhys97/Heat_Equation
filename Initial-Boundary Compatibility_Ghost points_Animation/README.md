@@ -2,7 +2,7 @@
 
 As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation. 
 
-The first aspect, **"initial-boundary compatibility"**, refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
+**1. "initial-boundary compatibility" :** Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
 
 For example, consider a rod of length \(L=1)\, with the initial temperature profile
 
@@ -50,4 +50,4 @@ This function preserves continuity and satisfies the zeroth-order initial-bounda
 
 Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 
-The second aspect...
+**2. Ghost points:**
