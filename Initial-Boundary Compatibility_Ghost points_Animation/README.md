@@ -1,18 +1,30 @@
-<h2>Initial-Boundary Compatibility, Ghost points and Animation</h2>
+```html
+<h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
 <div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
+```
 
-As already mentioned this project aims to presents three aspects of numerical methods through just two simple one-dimentional examples of Heat Equation. The first aspect of initial-boundary compatibility is refered as the value matching of the intial and boundary condioions at $t=0$, which is not always the case. It is worth to mention that initial-boundary compatibility differs from the usual compatibity where numerical solution should tend to the analytical one and also differs for the aspect of well-posted problem. For example, a compatible case is when there is a rod of length $L=1$ having initial temperature porfile, 
+As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation.
 
-$$u(x,0)=\sin(\pi x)$$ 
+The first aspect, **initial-boundary compatibility**, refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0\). Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.
 
-and the boundary conditions at both sides are, 
+It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness of a problem**, which concerns the existence, uniqueness, and continuous dependence of its solution.
 
-$$u(0,t)=u(L,t)=0$,\qquad t>0$$. 
+For example, consider a rod of length \(L=1\), with the initial temperature profile
 
-In this case $u$ at space-time domain is continous because sine at both boundaries give zero temperature. 
+$$
+u(x,0)=\sin(\pi x).
+$$
 
-On the other hand, an incompatible case is when we want the same initial profile but we want to impose different boundary condition. For example, we want the rod to touch a heat source in the edges where temperature remains at 0.5, which means $u(0,t)=u(L,t)=0.5$ for $t>0$. This is translated as a step function of time and $u$ becomes discontinous in the space-time of boundaries,
+Suppose that the temperature at both ends remains zero:
+
+$$
+u(0,t)=u(L,t)=0,\qquad t>0.
+$$
+
+In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth.
+
+On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, suppose that both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
 
 $$
 u(0,t)=u(L,t)=
@@ -22,16 +34,24 @@ u(0,t)=u(L,t)=
 \end{cases}
 $$
 
-This discontinity is what the incompatibility implies. However, the solution does exist and its visualization shows a sudden jump of temperature in the boundaries. But it is possible to smouthen it and also preserve the compatibility by introducing a temperature function of time at the boundaries, which is what this project does in the second example. In particular, we intoduce a ramp function of time,
+These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from 0 to 0.5. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden change in temperature at the boundaries.
+
+One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 
 $$
-u(0,t)=u(L,t)
+u(0,t)=u(L,t)=
 \begin{cases}
 0.5\dfrac{t}{T_r}, & 0\leq t<T_r,\\
 0.5, & t\geq T_r,
 \end{cases}
 $$
 
-where $T_r$ is the transition time. This function preseves continouity, but as it is discussed more xtensively in the notebook, its first derivative is now disconinous and thus further treatment is also intoduced.
+where \(T_r\) is the transition time.
 
+This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at \(t=T_r\).
+
+Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
+
+```html
 </div>
+```
