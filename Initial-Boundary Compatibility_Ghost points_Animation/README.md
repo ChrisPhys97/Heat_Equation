@@ -6,9 +6,9 @@ As already mentioned this project aims to presents three aspects of numerical me
 
 $$u(x,0)=\sin(\pi x)$$ 
 
-and the boundary conditions at both sides are 
+and the boundary conditions at both sides are, 
 
-$$u(0,t)=u(L,t)=0,\qquad t>0$$. 
+$$ $u(0,t)=u(L,t)=0$,\qquad $t>0$ $$. 
 
 In this case $u$ at space-time domain is continous because sine at both boundaries give zero temperature. 
 
