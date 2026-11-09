@@ -2,12 +2,12 @@
 
 <div style="text-align: justify;
 text-justify: inter-word; font-size: 15px;">
-As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation. The first aspect, 'initial-boundary compatibility', refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at $(t=0)$. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the consistency of a numerical scheme, which concerns the local truncation error, and from the well-posedness of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
+As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation. The first aspect, "initial-boundary compatibility", refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the consistency of a numerical scheme, which concerns the local truncation error, and from the well-posedness of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
 </div>
 
 <div style="text-align: justify;
 text-justify: inter-word; font-size: 15px;">
-For example, consider a rod of length $(L=1)$, with the initial temperature profile
+For example, consider a rod of length \(L=1)\, with the initial temperature profile
 
 $$
 u(x,0)=\sin(\pi x).
