@@ -40,13 +40,13 @@ These conditions are incompatible with the initial profile because the temperatu
 <p>One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 </div>
 
-$$
+```math
 u(0,t)=u(L,t)=
-\begin{array}{ll}
-0.5\dfrac{t}{T_r}, & 0\leq t<T_r,\\
-0.5, & t\geq T_r,
-\end{array}
-$$
+\begin{cases}
+0.5\frac{t}{T_r}, & 0\leq t<T_r,\\
+0.5, & t\geq T_r.
+\end{cases}
+```
 
 where $T_{r}$ is the transition time.
 
