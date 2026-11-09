@@ -24,7 +24,7 @@ On the other hand, an incompatible case arises when we retain the same initial t
 $$
 u(0,t)=u(L,t)=
 \begin{cases}
-0, & t=0,\\[4pt]
+0, & t=0,\\
 0.5, & t\gt 0.
 \end{cases}
 $$
@@ -34,13 +34,13 @@ These conditions are incompatible with the initial profile because the temperatu
 One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 
 
-```math
+$$
 u(0,t) = u(L,t) =
 \begin{cases}
-0.5\frac{t}{T_r} & \text{if } 0 \le t < T_r \\
-0.5 & \text{if } t \ge T_r
+0.5\frac{t}{T_r} &  0 \lt t \leq T_r \\
+0.5 &  t \gt T_r
 \end{cases}
-```
+$$
 
 where $T_{r}$ is the transition time.
   
