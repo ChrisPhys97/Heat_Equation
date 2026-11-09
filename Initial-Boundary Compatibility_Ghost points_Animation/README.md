@@ -4,9 +4,7 @@
 
 As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation.
 
-The first aspect, **initial-boundary compatibility**, refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0\). Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.
-
-It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness of a problem**, which concerns the existence, uniqueness, and continuous dependence of its solution.
+The first aspect, **initial-boundary compatibility**, refers to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0\). Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness of a problem**, which concerns the existence, uniqueness, and continuous dependence of its solution.
 
 For example, consider a rod of length \(L=1\), with the initial temperature profile
 
@@ -37,7 +35,7 @@ $$
 
 These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from 0 to 0.5. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden change in temperature at the boundaries.
 
-<p>One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
+One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 </div>
 
 ```math
