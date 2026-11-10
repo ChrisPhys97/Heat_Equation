@@ -1,13 +1,12 @@
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
 **1. Initial-boundary compatibility:** 
-<div style="text-align: justify;
-text-justify: inter-word; font-size: 15px;">
-Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at $(t=0)$. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.</div> 
 
-For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$\quad u(x,0)=\sin(\pi x)$$
+Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at $(t=0)$. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.
 
-And suppose that the temperature at both ends remains zero: $$\quad u(0,t)=u(L,t)=0,\qquad t>0$$
+For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$u(x,0)=\sin(\pi x)$$ and suppose that the temperature at both ends remains zero:
+
+$$\quad u(0,t)=u(L,t)=0,\qquad t>0$$
 
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. 
 
