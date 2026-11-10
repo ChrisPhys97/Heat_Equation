@@ -60,7 +60,7 @@ The <b>Initial-Boundary Compatibility, Ghost Points and Animation</b> notebook i
 
 <ul>
 
-<li><b>Compatibility:</b> Demonstration of compatible and incompatible initial and boundary conditions, along with a proposed treatment for incompatible cases.</li>
+<li><b>Compatibility:</b> Demonstration of compatible and incompatible initial and boundary conditions, along with a proposed treatment for incompatible cases. Initial-boundary compatibility concerns the regularity of the solution and should not be confused with the consistency of a numerical scheme (sometimes called compatibility) or the well-posedness of the mathematical problem.</li>
 
 <li><b>Ghost Points:</b> Implementation of ghost points for imposing boundary conditions using a simple finite volume method (FVM), where ghost-cell values are explicitly stored in the solution array.</li>
 
