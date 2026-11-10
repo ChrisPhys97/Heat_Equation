@@ -1,10 +1,7 @@
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
-As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation. 
-
 **1. Initial-boundary compatibility:** 
-Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
-
+Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
 For example, consider a rod of length \(L=1)\, with the initial temperature profile
 
 $$
@@ -17,12 +14,9 @@ $$
 u(0,t)=u(L,t)=0,\qquad t>0.
 $$
 
-
-
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth.
 
 On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, suppose that both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
-
 
 $$
 u(0,t)=u(L,t)=
@@ -36,7 +30,6 @@ These conditions are incompatible with the initial profile because the temperatu
 
 One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 
-
 $$
 u(0,t) = u(L,t) =
 \begin{cases}
@@ -47,9 +40,7 @@ $$
 
 where $T_{r}$ is the transition time.
   
-This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at $t=T_{r}$.
-
-Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
+This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 
 **2. Ghost points:** 
 When ghost points are employed to impose boundary conditions, two different approaches can be implemented. The first, used in the Stochastic Heat Equation project, is to express the temperature at the ghost points in terms of the neighboring interior values and the boundary conditions through interpolation. We then apply the discretized equations to the boundary cells, where some terms involve points outside the physical domain. These ghost-point terms are replaced using the expressions derived earlier, so the final equations contain only temperatures at points inside the domain.
