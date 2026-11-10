@@ -13,9 +13,7 @@ $$
 u(0,t)=u(L,t)=0,\qquad t>0.
 $$
 
-In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth.
-
-On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, suppose that both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
+In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, suppose that both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
 
 $$
 u(0,t)=u(L,t)=
@@ -25,9 +23,7 @@ u(0,t)=u(L,t)=
 \end{cases}
 $$
 
-These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from 0 to 0.5. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden change in temperature at the boundaries.
-
-One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
+These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from 0 to 0.5. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden change in temperature at the boundaries. One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 
 $$
 u(0,t) = u(L,t) =
