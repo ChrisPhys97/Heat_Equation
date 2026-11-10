@@ -28,7 +28,7 @@ u(0,t) = u(L,t) =
 $$
 
 where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
-<br></br>
+
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
 <ul>
 <li>The first, used in the Stochastic Heat Equation project, is to express the temperature at the ghost points in terms of the neighboring interior values and the boundary conditions through interpolation. We then apply the discretized equations to the boundary cells, where some terms involve points outside the physical domain. These ghost-point terms are replaced using the expressions derived earlier, so the final equations contain only temperatures at points inside the domain.</li>
@@ -100,3 +100,49 @@ u^n_{GL}=u^n_1. \qquad (3)
 $$
 
 Since the algorithm uses two arrays that are swapped between time steps, the ghost-cell values must be updated before applying the discretized equation. In particular, Eqs. (2) and (3) are evaluated using the temperatures at time step $n$, ensuring that the correct boundary values are available when calculating the solution at time step $n+1$.</li>
+
+<li>The second example considers a rod of length $L=1$, with the initial temperature profile
+
+$$
+u(x,0)=\sin(\pi x).
+$$
+
+Unlike the previous example, both ends of the rod are now brought into contact with heat sources, whose temperature gradually increases from 0 to 0.5. The imposed Dirichlet boundary conditions are
+
+$$
+u(0,t)=u(L,t)=g(t), \qquad (1)
+$$
+
+where $g(t)$ is initially defined as a linear ramp function:
+
+```math
+g(t)=
+\begin{cases}
+\frac{0.5t}{T_r} & \text{if } 0 \le t < T_r \\
+0.5 & \text{if } t \ge T_r
+\end{cases}
+```
+
+Here, $T_r$ is the transition time required for the boundary temperature to reach 0.5.
+
+This function satisfies the zeroth-order initial-boundary compatibility condition, since $g(0)=u(0,0)=u(L,0)=0$. However, it does not satisfy the first-order compatibility condition because its initial time derivative is nonzero, whereas the second spatial derivative of the initial temperature profile vanishes at both boundaries. Furthermore, the first derivative of the ramp function is discontinuous at $t=T_r$.
+
+To impose the boundary conditions, we use linear interpolation between the ghost-cell centers and the neighboring physical-cell centers. Since the physical boundaries lie halfway between these centers, the temperature at the right boundary is approximated by
+
+$$
+g(t_n)=\frac{u_N^n+u_{GR}^n}{2}
+\quad\Rightarrow\quad
+u_{GR}^n=2g(t_n)-u_N^n. \qquad (2)
+$$
+
+Similarly, at the left boundary,
+
+$$
+g(t_n)=\frac{u_{GL}^n+u_1^n}{2}
+\quad\Rightarrow\quad
+u_{GL}^n=2g(t_n)-u_1^n. \qquad (3)
+$$
+
+As in the first example, the algorithm uses two arrays that are swapped between time steps. Therefore, the ghost-cell values are updated using Eqs. (2) and (3) before applying the discretized equation. Both expressions are evaluated at time step $n$, ensuring that the boundary conditions are correctly imposed when calculating the physical solution at time step $n+1$.
+
+Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
