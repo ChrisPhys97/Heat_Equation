@@ -1,7 +1,8 @@
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
 **1. Initial-boundary compatibility:** 
-<p>Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.</p>
+Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
+
 For example, consider a rod of length \(L=1)\, with the initial temperature profile
 
 $$
@@ -77,3 +78,5 @@ $$
 The main advantage of this approach is that we can use the same discretized equation for all physical cells. The numerical loop runs over the indices $i=1,\ldots,N$, while the discretized equation also involves the neighboring values $u_{i-1}$ and $u_{i+1}$. When the loop reaches the first cell ($i=1$), the term $u_{i-1}$ refers to the left ghost cell ($u_{GL}$). Similarly, at the last cell ($i=N$), the term $u_{i+1}$ refers to the right ghost cell ($u_{GR}$).
 
 Since these ghost-cell values have already been calculated from the boundary conditions and stored in the extended array, they are accessed directly through their indices. This allows us to apply the same equation throughout the physical domain without introducing separate discretized equations for the boundary cells.
+
+The first and simpliest exmple..
