@@ -100,7 +100,7 @@ $$u(0,t)=u(L,t)=g(t), \qquad (1)$$
 
 where $g(t)$ is initially defined as a linear ramp function:
 
-$$g(t)=\begin{cases}\frac{0.5t}{T_r} &  0\le t\lt T_r\\0.5 & t\ge T_r\end{cases}$$
+$`g(t)=\begin{cases}\frac{0.5t}{T_r} & \text{if } 0\leq t<T_r \\ 0.5 & \text{if } t\geq T_r\end{cases}`$
 
 Here, $T_r$ is the transition time required for the boundary temperature to reach 0.5.
 
