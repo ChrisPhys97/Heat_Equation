@@ -126,7 +126,7 @@ The final aspect of this project concerns the visualization of the numerical sol
 
 To visualize the temperature profile across the entire rod, we can introduce two additional plotting points at $x=0$ and $x=L$. However, their temperatures must first be determined from the imposed boundary conditions.
 
-For the general Neumann case, suppose that the temperature gradients at both boundaries are prescribed as
+<li>For the general Neumann case, suppose that the temperature gradients at both boundaries are prescribed as
 
 $$
 \frac{\partial u}{\partial x}(0,t)=q_L(t),
@@ -164,9 +164,9 @@ u(0,t_n)\approx u_1^n,
 u(L,t_n)\approx u_N^n.
 $$
 
-This means that the additional plotting points would simply repeat the temperatures of the first and last physical cells. For this reason, the animation in the first example is constructed directly from the physical cell-center values.
+This means that the additional plotting points would simply repeat the temperatures of the first and last physical cells. For this reason, the animation in the first example is constructed directly from the physical cell-center values.</li>
 
-For the second example, where time-dependent Dirichlet boundary conditions are imposed, the boundary temperatures are already prescribed by $g(t)$. Therefore, the plotting arrays are defined as
+<li>For the second example, where time-dependent Dirichlet boundary conditions are imposed, the boundary temperatures are already prescribed by $g(t)$. Therefore, the plotting arrays are defined as
 
 $$
 \mathbf{x}_{plot}=[0,x_1,x_2,\ldots,x_N,L],
@@ -176,4 +176,4 @@ $$
 \mathbf{u}_{plot}^{n}=[g(t_n),u_1^n,u_2^n,\ldots,u_N^n,g(t_n)].
 $$
 
-These additional boundary points are used only for visualization and do not affect the numerical solution or the ghost-cell treatment. The saved temperature profiles are then displayed at successive time steps using Matplotlib, allowing us to observe how the temperature evolves along the rod.
+These additional boundary points are used only for visualization and do not affect the numerical solution or the ghost-cell treatment. The saved temperature profiles are then displayed at successive time steps using Matplotlib, allowing us to observe how the temperature evolves along the rod.</li>
