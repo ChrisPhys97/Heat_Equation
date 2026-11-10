@@ -71,3 +71,9 @@ An illustration of the one-dimentional domain used in both examples is shown in 
                  ↑                                           ↑
                 x=0                                         x=L                                      
 
+The solution array then has $N+2$ entries:
+
+$$
+u=[u_GL,u_1,u_2,...u_N,u_GR]
+$$
+
