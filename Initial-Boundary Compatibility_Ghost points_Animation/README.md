@@ -27,7 +27,8 @@ u(0,t) = u(L,t) =
 \end{cases}
 $$
 
-where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
+where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
+</br>
 
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
 <ul>
@@ -118,3 +119,5 @@ As in the first example, the algorithm uses two arrays that are swapped between 
 
 Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
 </ul>
+
+**3. Animation:**
