@@ -7,7 +7,9 @@ For example, consider a rod of length \(L=1)\, with the initial temperature prof
 
 And suppose that the temperature at both ends remains zero: $$\quad u(0,t)=u(L,t)=0,\qquad t>0$$
 
-In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
+In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. 
+
+An incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
 
 $$
 u(0,t)=u(L,t)=
@@ -122,7 +124,7 @@ Although the linear ramp removes the initial discontinuity in temperature, it do
 </br>
 
 **3. Animation:**
-The final aspect of this project concerns the visualization of the numerical solution. Since a cell-centered Finite Volume Method (FVM) is used, the temperatures are calculated at the centers of the physical cells rather than at the boundaries. Therefore, the first and last calculated values are located at $x=\Delta x/2$ and $x=L-\Delta x/2$, leaving a small gap between the numerical solution and the physical boundaries.
+The final aspect of this project concerns the visualization of the numerical solution. Since a cell-centered FVM is used, the temperatures are calculated at the centers of the physical cells rather than at the boundaries. Therefore, the first and last calculated values are located at $x=\Delta x/2$ and $x=L-\Delta x/2$, leaving a small gap between the numerical solution and the physical boundaries.
 
 To visualize the temperature profile across the entire rod, we can introduce two additional plotting points at $x=0$ and $x=L$. However, their temperatures must first be determined from the imposed boundary conditions.
 
