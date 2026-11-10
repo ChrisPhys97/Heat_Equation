@@ -78,12 +78,12 @@ $$
 Since both ends of the rod are insulated, the imposed boundary conditions are
 
 $$
-\frac{\partial u}{\partial x}(0,t)=\frac{\partial u}{\partial x}(L,t)=0. \qquad (1)
+\frac{\partial{u}}{\partial{x}}(0,t)=\frac{\partial{u}}{\partial{x}}(L,t)=0. \qquad (1)
 $$
 
 This is an initially compatible problem, even at higher orders, since the spatial derivatives required by the boundary conditions agree with the initial temperature profile.
 
-To impose these conditions, we use a central difference approximation (CDS) for the first derivative at the boundary faces. At the right boundary, Eq. (1) gives
+To impose these conditions, we use CDS for the first derivative at the boundary faces. At the right boundary, Eq. (1) gives
 
 $$
 \frac{u^n_{GR}-u^n_N}{\Delta x}=0
