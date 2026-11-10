@@ -2,7 +2,8 @@
 
 As already mentioned, this project aims to demonstrate three aspects of numerical methods through two simple one-dimensional examples of the heat equation. 
 
-**1. Initial-boundary compatibility:** Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
+**1. Initial-boundary compatibility:** 
+Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At the most basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. It is worth mentioning that initial-boundary compatibility differs from the **consistency of a numerical scheme**, which concerns the local truncation error, and from the **well-posedness** of a problem, which concerns the existence, uniqueness, and continuous dependence of its solution.
 
 For example, consider a rod of length \(L=1)\, with the initial temperature profile
 
@@ -50,4 +51,23 @@ This function preserves continuity and satisfies the zeroth-order initial-bounda
 
 Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 
-**2. Ghost points:**
+**2. Ghost points:** 
+When ghost points are employed to impose boundary conditions, two different approaches can be implemented. The first, used in the Stochastic Heat Equation project, is to express the temperature at the ghost points in terms of the neighboring interior values and the boundary conditions through interpolation. We then apply the discretized equations to the boundary cells, where some terms involve points outside the physical domain. These ghost-point terms are replaced using the expressions derived earlier, so the final equations contain only temperatures at points inside the domain.
+
+The second approach is used in this project. Suppose that the physical domain contains $N$ cells. Instead of eliminating the ghost-point values from the equations, we calculate them using the boundary conditions and store them in additional positions of the solution array. This allows us to use the same discretized equation for all physical cells, including those next to the boundaries. When the equation is applied to a boundary cell, it involves indices outside the physical domain. However, these indices correspond to the ghost points, whose values have already been calculated and stored. Therefore, the same equation can be applied without any additional treatment of the boundary cells.
+
+An illustration of the one-dimentional domain used in both examples is shown in the next picture
+
+                            Physical domain: x ∈ [0, L]
+
+       Ghost     |              N physical cells             |   Ghost
+        cell     |                                           |    cell
+    ┌────────────┬────────────┬─────────────────┬────────────┬────────────┐
+    │            │            │                 |            │            │
+    │     ●      │     ●      │       ....      |     ●      │     ●      │
+    │            │     1      │                 |     N      │            │
+    └────────────┴────────────┴─────────────────┴────────────┴────────────┘
+       Ghost_L      x = Δx/2                      x = L−Δx/2     Ghost_R
+                 ↑                                           ↑
+                x=0                                         x=L                                      
+
