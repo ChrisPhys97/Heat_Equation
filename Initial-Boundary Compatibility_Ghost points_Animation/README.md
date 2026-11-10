@@ -1,7 +1,7 @@
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
 
 **1. Initial-boundary compatibility:** 
-Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. 
+<p>Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.</p> 
 
 For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$\quad u(x,0)=\sin(\pi x)$$
 
