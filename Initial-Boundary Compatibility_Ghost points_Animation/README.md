@@ -118,6 +118,62 @@ $$g(t_n)=\frac{u_{GL}^n+u_1^n}{2}\quad\Rightarrow\quad u_{GL}^n=2g(t_n)-u_1^n \q
 As in the first example, the algorithm uses two arrays that are swapped between time steps. Therefore, the ghost-cell values are updated using Eqs. (2) and (3) before applying the discretized equation. Both expressions are evaluated at time step $n$, ensuring that the boundary conditions are correctly imposed when calculating the physical solution at time step $n+1$.
 
 Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
-</ul>
+</ul><br>
+</br>
 
 **3. Animation:**
+The final aspect of this project concerns the visualization of the numerical solution. Since a cell-centered Finite Volume Method (FVM) is used, the temperatures are calculated at the centers of the physical cells rather than at the boundaries. Therefore, the first and last calculated values are located at $x=\Delta x/2$ and $x=L-\Delta x/2$, leaving a small gap between the numerical solution and the physical boundaries.
+
+To visualize the temperature profile across the entire rod, we can introduce two additional plotting points at $x=0$ and $x=L$. However, their temperatures must first be determined from the imposed boundary conditions.
+
+For the general Neumann case, suppose that the temperature gradients at both boundaries are prescribed as
+
+$$
+\frac{\partial u}{\partial x}(0,t)=q_L(t),
+\qquad
+\frac{\partial u}{\partial x}(L,t)=q_R(t).
+$$
+
+Using a central difference approximation at the boundary faces, the ghost-cell expressions become
+
+$$
+u_{GL}^n=u_1^n-q_L(t_n)\Delta x,
+$$
+
+$$
+u_{GR}^n=u_N^n+q_R(t_n)\Delta x.
+$$
+
+Since the physical boundaries lie halfway between the ghost-cell centers and the neighboring physical-cell centers, their temperatures can be approximated through linear interpolation:
+
+$$
+u(0,t_n)\approx\frac{u_{GL}^n+u_1^n}{2}
+=u_1^n-\frac{q_L(t_n)\Delta x}{2},
+$$
+
+$$
+u(L,t_n)\approx\frac{u_N^n+u_{GR}^n}{2}
+=u_N^n+\frac{q_R(t_n)\Delta x}{2}.
+$$
+
+For the first example, where the rod is insulated, $q_L=q_R=0$. Therefore, the boundary temperatures reduce to
+
+$$
+u(0,t_n)\approx u_1^n,
+\qquad
+u(L,t_n)\approx u_N^n.
+$$
+
+This means that the additional plotting points would simply repeat the temperatures of the first and last physical cells. For this reason, the animation in the first example is constructed directly from the physical cell-center values.
+
+For the second example, where time-dependent Dirichlet boundary conditions are imposed, the boundary temperatures are already prescribed by $g(t)$. Therefore, the plotting arrays are defined as
+
+$$
+\mathbf{x}_{plot}=[0,x_1,x_2,\ldots,x_N,L],
+$$
+
+$$
+\mathbf{u}_{plot}^{n}=[g(t_n),u_1^n,u_2^n,\ldots,u_N^n,g(t_n)].
+$$
+
+These additional boundary points are used only for visualization and do not affect the numerical solution or the ghost-cell treatment. The saved temperature profiles are then displayed at successive time steps using Matplotlib, allowing us to observe how the temperature evolves along the rod.
