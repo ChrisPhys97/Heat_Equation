@@ -3,9 +3,9 @@
 **1. Initial-boundary compatibility:** 
 Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. 
 
-For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$\qquad u(x,0)=\sin(\pi x)$$
+For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$\quad u(x,0)=\sin(\pi x)$$
 
-And suppose that the temperature at both ends remains zero: $$\qquad u(0,t)=u(L,t)=0,\qquad t>0$$
+And suppose that the temperature at both ends remains zero: $$\quad u(0,t)=u(L,t)=0,\qquad t>0$$
 
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
 
@@ -100,13 +100,7 @@ $$u(0,t)=u(L,t)=g(t), \qquad (1)$$
 
 where $g(t)$ is initially defined as a linear ramp function:
 
-$$
-g(t) =
-\begin{cases}
-0.5\frac{t}{T_r} &  0 \lt t \leq T_r \\
-0.5 &  t \gt T_r
-\end{cases}
-$$
+$$g(t)=\begin{cases}0.5\frac{t}{T_r} &  0 \lt t \leq T_r \\0.5 &  t \gt T_r\end{cases}$$
 
 Here, $T_r$ is the transition time required for the boundary temperature to reach 0.5.
 
