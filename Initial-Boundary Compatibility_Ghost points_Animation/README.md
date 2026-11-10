@@ -3,9 +3,9 @@
 **1. Initial-boundary compatibility:** 
 Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at \(t=0)\. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution. 
 
-For example, consider a rod of length \(L=1)\, with the initial temperature profile $$u(x,0)=\sin(\pi x)$$
+For example, consider a rod of length \(L=1)\, with the initial temperature profile: $$\qquad u(x,0)=\sin(\pi x)$$
 
-And suppose that the temperature at both ends remains zero: $$u(0,t)=u(L,t)=0,\qquad t>0$$
+And suppose that the temperature at both ends remains zero: $$\qquad u(0,t)=u(L,t)=0,\qquad t>0$$
 
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. On the other hand, an incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
 
@@ -28,7 +28,7 @@ u(0,t) = u(L,t) =
 $$
 
 where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
-
+<br></br>
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
 <ul>
 <li>The first, used in the Stochastic Heat Equation project, is to express the temperature at the ghost points in terms of the neighboring interior values and the boundary conditions through interpolation. We then apply the discretized equations to the boundary cells, where some terms involve points outside the physical domain. These ghost-point terms are replaced using the expressions derived earlier, so the final equations contain only temperatures at points inside the domain.</li>
@@ -69,12 +69,34 @@ The main advantage of this approach is that we can use the same discretized equa
 
 Since these ghost-cell values have already been calculated from the boundary conditions and stored in the extended array, they are accessed directly through their indices. This allows us to apply the same equation throughout the physical domain without introducing separate discretized equations for the boundary cells.
 
-<li>The first and simplest example intoduces an insulated rod of lenght $L=1$ and initial temperature $$u(x,0)=\cos(\pi x)$$ 
+<li>The first and simplest example considers an insulated rod of length $L=1$, with the initial temperature profile
 
-The imposed boundary conditions are $$\frac{\partial{u(0,t)}}{\partial{x}} = \frac{\partial{u(L,t)}}{\partial{x}} = 0 \qquad (1)$$ 
+$$
+u(x,0)=\cos(\pi x).
+$$
 
-An already compatible case in all orders because all functions and derivatives of both initial and boundary conditions are in agreement. To employ the boundary conditions, a CDS interpolation is implimented to Eq. (1). Thus,
-$$\frac{u^n_{GR}-u^n_N}{\DELTA x}=0 \Rightarrow u^n_{GR}=u^n_N \qquad(2)$$
-Similary at the left boundary,
-$$\frac{u^n_1-u^n_{GL}}{\DELTA x}=0 \Rightarrow u^n_1=u^n_{GL} \qquad(3)$$
-Becasue swapping arrays are used, expressions (2,3) is updated before the descritized equation since the interpolation implimented at time step $n$.</li>
+Since both ends of the rod are insulated, the imposed boundary conditions are
+
+$$
+\frac{\partial u}{\partial x}(0,t)=\frac{\partial u}{\partial x}(L,t)=0. \qquad (1)
+$$
+
+This is an initially compatible problem, even at higher orders, since the spatial derivatives required by the boundary conditions agree with the initial temperature profile.
+
+To impose these conditions, we use a central difference approximation (CDS) for the first derivative at the boundary faces. At the right boundary, Eq. (1) gives
+
+$$
+\frac{u^n_{GR}-u^n_N}{\Delta x}=0
+\quad\Rightarrow\quad
+u^n_{GR}=u^n_N. \qquad (2)
+$$
+
+Similarly, at the left boundary,
+
+$$
+\frac{u^n_1-u^n_{GL}}{\Delta x}=0
+\quad\Rightarrow\quad
+u^n_{GL}=u^n_1. \qquad (3)
+$$
+
+Since the algorithm uses two arrays that are swapped between time steps, the ghost-cell values must be updated before applying the discretized equation. In particular, Eqs. (2) and (3) are evaluated using the temperatures at time step $n$, ensuring that the correct boundary values are available when calculating the solution at time step $n+1$.</li>
