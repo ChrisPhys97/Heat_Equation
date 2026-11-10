@@ -75,52 +75,38 @@ $$u(x,0)=\cos(\pi x)$$
 
 Since both ends of the rod are insulated, the imposed boundary conditions are
 
-$$
-\frac{\partial{u}}{\partial{x}}(0,t)=\frac{\partial{u}}{\partial{x}}(L,t)=0. \qquad (1)
-$$
+$$\frac{\partial{u}}{\partial{x}}(0,t)=\frac{\partial{u}}{\partial{x}}(L,t)=0 \qquad (1)$$
 
 This is an initially compatible problem, even at higher orders, since the spatial derivatives required by the boundary conditions agree with the initial temperature profile.
 
 To impose these conditions, we use CDS for the first derivative at the boundary faces. At the right boundary, Eq. (1) gives
 
-$$
-\frac{u^n_{GR}-u^n_N}{\Delta x}=0
-\quad\Rightarrow\quad
-u^n_{GR}=u^n_N. \qquad (2)
-$$
+$$\frac{u^n_{GR}-u^n_N}{\Delta x}=0\quad\Rightarrow\quad u^n_{GR}=u^n_N \qquad (2)$$
 
 Similarly, at the left boundary,
 
-$$
-\frac{u^n_1-u^n_{GL}}{\Delta x}=0
-\quad\Rightarrow\quad
-u^n_{GL}=u^n_1. \qquad (3)
-$$
+$$\frac{u^n_1-u^n_{GL}}{\Delta x}=0\quad\Rightarrow\quad u^n_{GL}=u^n_1 \qquad (3)$$
 
 Since the algorithm uses two arrays that are swapped between time steps, the ghost-cell values must be updated before applying the discretized equation. In particular, Eqs. (2) and (3) are evaluated using the temperatures at time step $n$, ensuring that the correct boundary values are available when calculating the solution at time step $n+1$.</li>
-</ul>
+
 
 <li>The second example considers a rod of length $L=1$, with the initial temperature profile
 
-$$
-u(x,0)=\sin(\pi x).
-$$
+$$u(x,0)=\sin(\pi x)$$
 
 Unlike the previous example, both ends of the rod are now brought into contact with heat sources, whose temperature gradually increases from 0 to 0.5. The imposed Dirichlet boundary conditions are
 
-$$
-u(0,t)=u(L,t)=g(t), \qquad (1)
-$$
+$$u(0,t)=u(L,t)=g(t), \qquad (1)$$
 
 where $g(t)$ is initially defined as a linear ramp function:
 
-```math
-g(t)=
+$$
+g(t) =
 \begin{cases}
-\frac{0.5t}{T_r} & \text{if } 0 \le t < T_r \\
-0.5 & \text{if } t \ge T_r
+0.5\frac{t}{T_r} &  0 \lt t \leq T_r \\
+0.5 &  t \gt T_r
 \end{cases}
-```
+$$
 
 Here, $T_r$ is the transition time required for the boundary temperature to reach 0.5.
 
@@ -128,20 +114,13 @@ This function satisfies the zeroth-order initial-boundary compatibility conditio
 
 To impose the boundary conditions, we use linear interpolation between the ghost-cell centers and the neighboring physical-cell centers. Since the physical boundaries lie halfway between these centers, the temperature at the right boundary is approximated by
 
-$$
-g(t_n)=\frac{u_N^n+u_{GR}^n}{2}
-\quad\Rightarrow\quad
-u_{GR}^n=2g(t_n)-u_N^n. \qquad (2)
-$$
+$$g(t_n)=\frac{u_N^n+u_{GR}^n}{2}\quad\Rightarrow\quad u_{GR}^n=2g(t_n)-u_N^n \qquad (2)$$
 
 Similarly, at the left boundary,
 
-$$
-g(t_n)=\frac{u_{GL}^n+u_1^n}{2}
-\quad\Rightarrow\quad
-u_{GL}^n=2g(t_n)-u_1^n. \qquad (3)
-$$
+$$g(t_n)=\frac{u_{GL}^n+u_1^n}{2}\quad\Rightarrow\quad u_{GL}^n=2g(t_n)-u_1^n \qquad (3)$$
 
 As in the first example, the algorithm uses two arrays that are swapped between time steps. Therefore, the ghost-cell values are updated using Eqs. (2) and (3) before applying the discretized equation. Both expressions are evaluated at time step $n$, ensuring that the boundary conditions are correctly imposed when calculating the physical solution at time step $n+1$.
 
 Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
+</ul>
