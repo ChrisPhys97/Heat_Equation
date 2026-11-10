@@ -33,16 +33,19 @@ u(0,t) = u(L,t) =
 \end{cases}
 $$
 
-where $T_{r}$ is the transition time.
-  
-This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
+where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition for the chosen initial profile. Furthermore, its first derivative is discontinuous at $t=T_{r}$. 
+
+Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
 
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
 <ul>
 <li>The first, used in the Stochastic Heat Equation project, is to express the temperature at the ghost points in terms of the neighboring interior values and the boundary conditions through interpolation. We then apply the discretized equations to the boundary cells, where some terms involve points outside the physical domain. These ghost-point terms are replaced using the expressions derived earlier, so the final equations contain only temperatures at points inside the domain.</li>
+  
+<br>
 
 <li>The second approach is used in this project. Suppose that the physical domain contains $N$ cells. Instead of eliminating the ghost-point values from the equations, we calculate them using the boundary conditions and store them in additional positions of the solution array. This allows us to use the same discretized equation for all physical cells, including those next to the boundaries. When the equation is applied to a boundary cell, it involves indices outside the physical domain. However, these indices correspond to the ghost points, whose values have already been calculated and stored. Therefore, the same equation can be applied without any additional treatment of the boundary cells.</li>
 </ul>
+
 An illustration of the one-dimentional domain used in both examples is shown in the next picture
 
                             Physical domain: x ∈ [0, L]
