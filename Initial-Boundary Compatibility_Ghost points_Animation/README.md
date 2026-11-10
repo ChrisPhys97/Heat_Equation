@@ -71,9 +71,18 @@ An illustration of the one-dimentional domain used in both examples is shown in 
                  ↑                                           ↑
                 x=0                                         x=L                                      
 
-The solution array then has $N+2$ entries:
+The **extended solution array**, which includes the two ghost-cell values, has $N+2$ entries:
 
 $$
-u=[u_GL,u_1,u_2,...u_N,u_GR]
+\mathbf{u}_{ext}=[u_{GL},u_1,u_2,\ldots,u_N,u_{GR}].
 $$
 
+However, the **physical numerical solution** contains only the $N$ temperatures calculated at the centers of the physical cells:
+
+$$
+\mathbf{u}_{phys}=[u_1,u_2,\ldots,u_N].
+$$
+
+The main advantage of this approach is that we can use the same discretized equation for all physical cells. The numerical loop runs over the indices $i=1,\ldots,N$, while the discretized equation also involves the neighboring values $u_{i-1}$ and $u_{i+1}$. When the loop reaches the first cell ($i=1$), the term $u_{i-1}$ refers to the left ghost cell ($u_{GL}$). Similarly, at the last cell ($i=N$), the term $u_{i+1}$ refers to the right ghost cell ($u_{GR}$).
+
+Since these ghost-cell values have already been calculated from the boundary conditions and stored in the extended array, they are accessed directly through their indices. This allows us to apply the same equation throughout the physical domain without introducing separate discretized equations for the boundary cells.
