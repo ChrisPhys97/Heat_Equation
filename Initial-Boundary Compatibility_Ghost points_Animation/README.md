@@ -15,7 +15,7 @@ An incompatible case arises when we retain the same initial temperature profile 
 $$
 u(0,t)=u(L,t)=
 \begin{cases}
-0, & t=0,\\
+0, & t=0,\rule{0pt}{18pt}\\
 0.5, & t\gt 0.
 \end{cases}
 $$
