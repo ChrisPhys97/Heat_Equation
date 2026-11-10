@@ -68,12 +68,10 @@ $$
 The main advantage of this approach is that we can use the same discretized equation for all physical cells. The numerical loop runs over the indices $i=1,\ldots,N$, while the discretized equation also involves the neighboring values $u_{i-1}$ and $u_{i+1}$. When the loop reaches the first cell ($i=1$), the term $u_{i-1}$ refers to the left ghost cell ($u_{GL}$). Similarly, at the last cell ($i=N$), the term $u_{i+1}$ refers to the right ghost cell ($u_{GR}$).
 
 Since these ghost-cell values have already been calculated from the boundary conditions and stored in the extended array, they are accessed directly through their indices. This allows us to apply the same equation throughout the physical domain without introducing separate discretized equations for the boundary cells.
-
+<ul>
 <li>The first and simplest example considers an insulated rod of length $L=1$, with the initial temperature profile
 
-$$
-u(x,0)=\cos(\pi x).
-$$
+$$u(x,0)=\cos(\pi x)$$
 
 Since both ends of the rod are insulated, the imposed boundary conditions are
 
@@ -100,6 +98,7 @@ u^n_{GL}=u^n_1. \qquad (3)
 $$
 
 Since the algorithm uses two arrays that are swapped between time steps, the ghost-cell values must be updated before applying the discretized equation. In particular, Eqs. (2) and (3) are evaluated using the temperatures at time step $n$, ensuring that the correct boundary values are available when calculating the solution at time step $n+1$.</li>
+</ul>
 
 <li>The second example considers a rod of length $L=1$, with the initial temperature profile
 
