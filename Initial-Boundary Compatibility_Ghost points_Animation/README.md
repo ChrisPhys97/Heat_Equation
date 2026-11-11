@@ -10,7 +10,7 @@ $$u(0,t)=u(L,t)=0,\qquad t>0$$
 
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. 
 
-An incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of *0.5*. The boundary conditions can then be represented by a step function in time:
+An incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both boundaries are suddenly brought into contact with heat sources maintained at a temperature of *0.5*. The boundary conditions can then be represented by a step function in time:
 
 $$
 u(0,t)=u(L,t)=
