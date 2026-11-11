@@ -49,7 +49,7 @@ Interpolation schemes:
 </ul>
 </li>
 
-<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\overline{u} \Delta{V}\quad$$ where $$\overline{u}=u_{P}$$</li>
+<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely </li>
 
 </ul>
 
@@ -67,6 +67,37 @@ Interpolation schemes:
 
 <p>
 The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM) for the interior cells, namely the Forward Time-Centered Space (FTCS) scheme for diffusion, combined with an upwind discretization for advection. By eliminating the ghost points algebraically through the imposed boundary conditions, four separate equations are obtained for the boundary sides and another four for the corresponding corners. This approach highlights the difficulty of deriving the correct boundary equations, as well as the need to implement additional equations beyond the general interior stencil. The procedure becomes even more challenging when dealing with three-dimensional problems. Although explicitly storing ghost points may provide a more convenient alternative for such numerical simulations, deriving the boundary equations can simplify the stability analysis by making the stencil coefficients directly available. A brief derivation of a sufficient stability condition is presented below.</p>
+
+<p>The stability condition depends on what you want to guarantee. Requiring all stencil coefficients to be nonnegative gives a sufficient condition for monotonicity, while Gershgorin's Circle Theorem can provide a less restrictive sufficient condition for spectral stability.</p> 
+
+<p>Following the first approach, the stability condition can be derived more directly. The explicit numerical scheme can be expressed in matrix form as
+
+$$
+\mathbf{u}^{n+1}=A\mathbf{u}^{n},
+$$
+
+where $\mathbf{u}^{n}$ is the vector of temperature values at time level $n$, and $A$ is the amplification matrix containing the coefficients of the discretized equations, including the boundary conditions. For the numerical scheme to be linearly stable, the spectral radius of $A$ must satisfy
+
+$$
+\rho(A)=\max_k|\lambda_k|\leq1,
+$$
+
+where $\lambda_k$ denotes the eigenvalues of $A$. Rather than calculating these eigenvalues explicitly, Gershgorin's Circle Theorem can be used to estimate their possible locations. According to the theorem, every eigenvalue of $A$ lies within at least one disk defined by
+
+$$
+|\lambda-a_{ss}|\leq R_s,
+$$
+
+where $a_{ss}$ is the diagonal element of row $s$ and $R_s$ is the sum of the absolute values of its off-diagonal elements,
+
+$$
+R_s=\sum_{j\neq s}|a_{sj}|.
+$$
+
+Therefore, requiring all Gershgorin disks to lie within the unit disk $|\lambda|\leq1$ provides a sufficient condition for the linear stability of the numerical scheme.</p>
+
+
+
 
 <p>
 <b>4.</b> Time-dependent animation and visualization using Plotly.
