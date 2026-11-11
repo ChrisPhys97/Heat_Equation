@@ -7,7 +7,7 @@
 <ul>
 <li>Multiple localized heat sources,</li>
 
-<li>Source locations whose <i>x</i>-coordinates follow the probability density function</li> $$f(x)=\pi\sin(\pi x)$$
+<li>Source locations whose <i>x</i>-coordinates follow the probability density function $$f(x)=\pi\sin(\pi x)$$ </li>
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi&space;x)" />
 </p>
