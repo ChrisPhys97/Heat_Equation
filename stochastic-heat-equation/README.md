@@ -8,13 +8,10 @@
 <li>Multiple localized heat sources,</li>
 
 <li>Source locations whose <i>x</i>-coordinates follow the probability density function $$f(x)=\pi\sin(\pi x)$$ </li>
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi&space;x)" />
-</p>
 
-<li>while the <i>y</i>-coordinates follow a uniform distribution within</li> $$[0.1, 0.9]$$ 
-<img src="https://latex.codecogs.com/svg.image?[0.1,0.9]" />.
+<li>while the <i>y</i>-coordinates follow a uniform distribution within $$[0.1, 0.9]$$ </li>
 
+<li>Analytical elimination of ghost points by substituting their expressions into the discretized boundary-cell equations, rather than explicitly storing and updating them as in Initial-Boundary Compatibility examples</li>
 
 <li>Stochastic source activation modeled as a discrete-time approximation of a Poisson process,</li>
 
