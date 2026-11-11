@@ -133,7 +133,7 @@
 >>
 >To visualize the temperature profile across the entire rod, we can introduce two additional plotting points at $x=0$ and $x=L$. However, their temperatures must >first be determined from the imposed boundary conditions.
 >
-><li>For the general Neumann case, suppose that the temperature gradients at both boundaries are prescribed as</li>
+>For the general Neumann case, suppose that the temperature gradients at both boundaries are prescribed as
 >
 >$$
 >\frac{\partial u}{\partial x}(0,t)=q_L(t),
@@ -173,7 +173,7 @@
 >
 >This means that the additional plotting points would simply repeat the temperatures of the first and last physical cells. For this reason, the animation in the >first example is constructed directly from the physical cell-center values.
 >
-><li>For the second example, where time-dependent Dirichlet boundary conditions are imposed, the boundary temperatures are already prescribed by $g(t)$. Therefore, >the plotting arrays are defined as</li>
+>For the second example, where time-dependent Dirichlet boundary conditions are imposed, the boundary temperatures are already prescribed by $g(t)$. Therefore, >the plotting arrays are defined as
 >
 >$$
 >\mathbf{x}_{plot}=[0,x_1,x_2,\ldots,x_N,L],
