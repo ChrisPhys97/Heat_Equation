@@ -4,7 +4,7 @@
 
 Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at $(t=0)$. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.
 
-For example, consider a rod of length \(*L=1*)\, with the initial temperature profile:  $$u(x,0)=\sin(\pi x)$$  and suppose that the temperature at both ends remains zero:
+For example, consider a rod of length \(L=1)\, with the initial temperature profile:  $$u(x,0)=\sin(\pi x)$$  and suppose that the temperature at both ends remains zero:
 
 $$u(0,t)=u(L,t)=0,\qquad t>0$$
 
