@@ -6,9 +6,13 @@
 
 <ul>
 <li>Multiple localized heat sources,</li>
-<b></b>
+<b>
+  
+</b>
 <li>Source locations whose <i>x</i>-coordinates follow the probability density function $$f(x)=\pi\sin(\pi x)$$ </li>
-<b></b>
+<b>
+  
+</b>
 <li>while the <i>y</i>-coordinates follow a uniform distribution within $$[0.1, 0.9]$$ </li>
 
 <li>Analytical elimination of ghost points by substituting their expressions into the discretized boundary-cell equations, rather than explicitly storing and updating them as in Initial-Boundary Compatibility examples</li>
