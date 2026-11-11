@@ -98,6 +98,67 @@ Therefore, requiring all Gershgorin disks to lie within the unit disk $|\lambda|
 <i>Numerical Solution of Partial Differential Equations: Finite Difference Methods</i>.
 3rd ed. Oxford University Press.</p>
 
+<p>
+The amplification matrix $A$ does not need to be constructed explicitly to apply Gershgorin's Circle Theorem, since every discretized equation corresponds to one row of the matrix. Therefore, the diagonal and off-diagonal elements can be identified directly from the coefficients of each discretized equation. For example, considering the bottom boundary, excluding the corners, the explicit diffusion scheme is written as
+
+$$
+u_{0,i}^{n+1}=(1-3r)u_{0,i}^{n}+r(u_{0,i-1}^{n}+u_{0,i+1}^{n}+u_{1,i}^{n}).
+$$
+
+The diagonal element is $a_{ss}=1-3r$, corresponding to the temperature of the cell itself, while the three neighboring cells contribute to the off-diagonal elements. Consequently, the Gershgorin radius is
+
+$$
+R_s=|r|+|r|+|r|=3r,
+$$
+
+since $r\geq0$. Applying Gershgorin's Circle Theorem gives
+
+$$
+|\lambda-(1-3r)|\leq3r.
+$$
+
+Since the amplification matrix for the diffusion-only problem is symmetric, its eigenvalues are real, and the corresponding Gershgorin disk can be examined as an interval on the real axis,
+
+$$
+1-6r\leq\lambda\leq1.
+$$
+
+Requiring this interval to lie within $[-1,1]$ gives the sufficient stability restriction $r\leq1/3$ for the bottom-boundary rows. However, this condition alone does not guarantee the stability of the complete numerical scheme, since all the discretized equations must be considered.
+
+The same procedure can be repeated for the interior cells, the four boundary sides, and the four corners. The corresponding diagonal elements, Gershgorin radii, and lower eigenvalue bounds are summarized below.
+
+| Cell type | Diagonal element $a_{ss}$ | Radius $R_s$ | Lower bound |
+|---|---|---|---|
+| Interior | $1-4r$ | $4r$ | $1-8r$ |
+| Bottom, top, right | $1-3r$ | $3r$ | $1-6r$ |
+| Left | $1-5r$ | $3r$ | $1-8r$ |
+| Bottom-left, top-left | $1-4r$ | $2r$ | $1-6r$ |
+| Bottom-right, top-right | $1-2r$ | $2r$ | $1-4r$ |
+
+From these results, the most restrictive lower bound is obtained from the interior cells and the left Dirichlet boundary, while the maximum upper bound is equal to one. Therefore, all eigenvalues of the amplification matrix are bounded by
+
+$$
+1-8r\leq\lambda\leq1.
+$$
+
+To satisfy the spectral stability requirement, $\rho(A)=\max_k|\lambda_k|\leq1$, the lower bound must be greater than or equal to $-1$. Thus,
+
+$$
+1-8r\geq-1
+$$
+
+and finally,
+
+$$
+\boxed{r\leq\frac14}.
+$$
+
+This provides a sufficient spectral stability condition for the complete two-dimensional diffusion scheme without explicitly constructing the amplification matrix or calculating its eigenvalues. For example, on a grid containing $100\times100$ computational cells, the amplification matrix would have dimensions $10{,}000\times10{,}000$, although only the nine types of discretized equations need to be examined to apply the theorem.
+
+It is important to distinguish this spectral stability condition from the requirement that all stencil coefficients remain nonnegative. The latter gives the more restrictive condition $r\leq1/5$, which additionally guarantees a discrete maximum principle and preservation of nonnegative temperatures for nonnegative initial values and heat sources.
+
+</p>
+
 
 
 
