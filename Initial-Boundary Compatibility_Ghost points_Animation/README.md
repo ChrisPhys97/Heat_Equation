@@ -1,4 +1,5 @@
 <h2>Initial-Boundary Compatibility, Ghost Points and Animation</h2>
+
 [!NOTE]
 **1. Initial-boundary compatibility:** 
 
@@ -32,8 +33,8 @@ u(0,t) = u(L,t) =
 \end{cases}
 $$
 
-where $T_r$ is the transition time. This function preserves continuity and satisfies the basic initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition at $t=0$, since its initial time derivative is nonzero, whereas the second spatial derivative of the initial sine profile vanishes at both boundaries. Furthermore, the first derivative of the boundary function is discontinuous at $t=T_r$, introducing an additional loss of smoothness. Therefore, although the linear ramp removes the initial temperature jump, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
-</br>
+where $T_r$ is the transition time. This function preserves continuity and satisfies the basic initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition at $t=0$, since its initial time derivative is nonzero, whereas the second spatial derivative of the initial sine profile vanishes at both boundaries. Furthermore, the first derivative of the boundary function is discontinuous at $t=T_r$, introducing an additional loss of smoothness. Therefore, although the linear ramp removes the initial temperature jump, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.
+
 
 [!TIP]
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
