@@ -6,13 +6,9 @@
 
 <ul>
 <li>Multiple localized heat sources,</li>
-<b>
-  
-</b>
+
 <li>Source locations whose <i>x</i>-coordinates follow the probability density function $$f(x)=\pi\sin(\pi x)$$ </li>
-<b>
-  
-</b>
+
 <li>while the <i>y</i>-coordinates follow a uniform distribution within $$[0.1, 0.9]$$ </li>
 
 <li>Analytical elimination of ghost points by substituting their expressions into the discretized boundary-cell equations, rather than explicitly storing and updating them as in Initial-Boundary Compatibility examples</li>
@@ -30,8 +26,6 @@
 </div>
 
 <h3>Notebook and Code Description</h3>
-
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
 <p>
 1. Source coordinates generation using the Inverse Transform Sampling method, followed by a brief theoretical background. The probability density function was selected since this distribution is not directly available as a predefined sampling distribution in either <i>numpy.random</i> or <i>scipy.stats</i>. Additionally, the function is analytically integrable and invertible, allowing direct implementation of the inversion method. For more complex probability density functions without analytical inversion, the "hit-or-miss" method represents an alternative sampling approach.
@@ -83,11 +77,7 @@ The resulting formulation yields the same numerical scheme as the Finite Differe
 4. Time-dependent animation and visualization using Plotly.
 </p>
 
-</div>
-
 <h3>Requirements</h3>
-
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
 
 <ul>
 <li>NumPy</li>
@@ -95,4 +85,3 @@ The resulting formulation yields the same numerical scheme as the Finite Differe
 <li>Numba</li>
 </ul>
 
-</div>
