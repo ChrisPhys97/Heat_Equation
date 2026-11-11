@@ -44,20 +44,23 @@
 ><li>The second approach is used in this project. Suppose that the physical domain contains $N$ cells. Instead of eliminating the ghost-point values from the >equations, we calculate them using the boundary conditions and store them in additional positions of the solution array. This allows us to use the same discretized >equation for all physical cells, including those next to the boundaries. When the equation is applied to a boundary cell, it involves indices outside the physical >domain. However, these indices correspond to the ghost points, whose values have already been calculated and stored. Therefore, the same equation can be applied >without any additional treatment of the boundary cells.</li>
 ></ul>
 >
->An illustration of the one-dimentional domain used in both notebook examples is shown in the next picture
+> An illustration of the one-dimensional domain used in both
+> notebook examples is shown below.
 >
->                           Physical domain: x ∈ [0, L]
+> ```text
+>                     Physical domain: x ∈ [0, L]
 >
->       Ghost     |              N physical cells             |   Ghost
->        cell     |                                           |    cell
->    ┌────────────┬────────────┬─────────────────┬────────────┬────────────┐
->    │            │            │                 |            │            │
->    │     ●      │     ●      │       ....      |     ●      │     ●      │
->    │            │     1      │                 |     N      │            │
->    └────────────┴────────────┴─────────────────┴────────────┴────────────┘
->       Ghost_L      x = Δx/2                      x = L−Δx/2     Ghost_R
->                 ↑                                           ↑
->                x=0                                         x=L                                      
+>      Ghost     |          N physical cells          |     Ghost
+>       cell     |                                    |      cell
+>   ┌────────────┬────────────┬──────────┬────────────┬────────────┐
+>   │            │            │          │            │            │
+>   │     ●      │     ●      │   ...    │     ●      │     ●      │
+>   │            │     1      │          │     N      │            │
+>   └────────────┴────────────┴──────────┴────────────┴────────────┘
+>      Ghost_L       x=Δx/2                 x=L−Δx/2      Ghost_R
+>                ↑                                    ↑
+>               x=0                                  x=L
+> ```
 >
 >The **extended solution array**, which includes the two ghost-cell values, has $N+2$ entries:
 >
@@ -105,7 +108,7 @@
 >
 >where $g(t)$ is initially defined as a linear ramp function:
 >
->$$`g(t)=\begin{cases}\frac{0.5t}{T_r} & \text{if } 0\leq t<T_r \\ \rule{0pt}{24pt}0.5 & \text{if } t\geq T_r\end{cases}`$$
+>$`g(t)=\begin{cases}\frac{0.5t}{T_r} & \text{if } 0\leq t<T_r \\ \rule{0pt}{24pt}0.5 & \text{if } t\geq T_r\end{cases}`$
 >
 >Here, $T_r$ is the transition time required for the boundary temperature to reach 0.5.
 >
@@ -123,6 +126,7 @@
 >
 >Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary >functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
 ></ul>
+
 
 >[!WARNING]
 >**3. Animation:**
