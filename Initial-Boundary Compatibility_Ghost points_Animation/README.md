@@ -32,8 +32,9 @@ u(0,t) = u(L,t) =
 \end{cases}
 $$
 
-where $T_{r}$ is the transition time. This function preserves continuity and satisfies the basic initial-boundary compatibility condition. However, it does not satisfy higher compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
+where $T_r$ is the transition time. This function preserves continuity and satisfies the basic initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility condition at $t=0$, since its initial time derivative is nonzero, whereas the second spatial derivative of the initial sine profile vanishes at both boundaries. Furthermore, the first derivative of the boundary function is discontinuous at $t=T_r$, introducing an additional loss of smoothness. Therefore, although the linear ramp removes the initial temperature jump, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
 </br>
+
 [!TIP]
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
 <ul>
@@ -125,6 +126,7 @@ As in the first example, the algorithm uses two arrays that are swapped between 
 Although the linear ramp removes the initial discontinuity in temperature, it does not provide higher-order compatibility. For this reason, smoother boundary functions are also introduced in the notebook to investigate how the regularity of the boundary conditions affects the solution.</li>
 </ul><br>
 </br>
+
 [!WARNING]
 **3. Animation:**
 The final aspect of this project concerns the visualization of the numerical solution. Since a cell-centered FVM is used, the temperatures are calculated at the centers of the physical cells rather than at the boundaries. Therefore, the first and last calculated values are located at $x=\Delta x/2$ and $x=L-\Delta x/2$, leaving a small gap between the numerical solution and the physical boundaries.
