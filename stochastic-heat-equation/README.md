@@ -10,7 +10,7 @@
 <li>
 Source locations whose <i>x</i>-coordinates follow the probability density function
 </li>
-\f(x)=\pi\sin(\pi x)\
+$$f(x)=\pi\sin(\pi x)$
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi&space;x)" />
 </p>
