@@ -155,7 +155,9 @@ $$
 
 This provides a sufficient spectral stability condition for the complete two-dimensional diffusion scheme without explicitly constructing the amplification matrix or calculating its eigenvalues. For example, on a grid containing $100\times100$ computational cells, the amplification matrix would have dimensions $10{,}000\times10{,}000$, although only the nine types of discretized equations need to be examined to apply the theorem.
 
-It is important to distinguish this spectral stability condition from the requirement that all stencil coefficients remain nonnegative. The latter gives the more restrictive condition $r\leq1/5$, which additionally guarantees a discrete maximum principle and preservation of nonnegative temperatures for nonnegative initial values and heat sources.
+Although Gershgorin's Circle Theorem provides a sufficient condition for spectral stability, it does not necessarily guarantee that the numerical solution remains nonnegative. An additional restriction can be obtained by requiring all coefficients of the explicit discretization to remain nonnegative, ensuring positivity preservation for nonnegative initial conditions and source terms. This approach is also discussed in the [TU Delft MUDE Textbook — Diffusion Equation](https://mude.citg.tudelft.nl/book/2026/numerical_methods_for_PDEs/diffusion_equation.html).
+
+For the present discretization, the most restrictive coefficient occurs at the left Dirichlet boundary, yielding $r\leq1/5$.
 
 </p>
 
