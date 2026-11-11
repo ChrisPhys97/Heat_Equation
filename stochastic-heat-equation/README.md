@@ -49,7 +49,7 @@ Interpolation schemes:
 </ul>
 </li>
 
-<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\bar{u}\Delta{V}$$</li>
+<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\overline{u}\Delta{V}\quad$$ where$$\overline{u}=u_{P}$$</li>
 
 </ul>
 
@@ -70,7 +70,7 @@ The resulting formulation yields the same numerical scheme as the Finite Differe
 </p>
 
 <p>
-4. Time-dependent animation and visualization using Plotly.
+<b>4.</b> Time-dependent animation and visualization using Plotly.
 </p>
 
 <h3>Requirements</h3>
