@@ -11,8 +11,6 @@
 
 <li>while the <i>y</i>-coordinates follow a uniform distribution within $$[0.1, 0.9]$$ </li>
 
-<li>Analytical elimination of ghost points by substituting their expressions into the discretized boundary-cell equations, rather than explicitly storing and updating them as in Initial-Boundary Compatibility examples</li>
-
 <li>Stochastic source activation modeled as a discrete-time approximation of a Poisson process,</li>
 
 <li>Advection-diffusion transport,</li>
@@ -28,15 +26,15 @@
 <h3>Notebook and Code Description</h3>
 
 <p>
-1. Source coordinates generation using the Inverse Transform Sampling method, followed by a brief theoretical background. The probability density function was selected since this distribution is not directly available as a predefined sampling distribution in either <i>numpy.random</i> or <i>scipy.stats</i>. Additionally, the function is analytically integrable and invertible, allowing direct implementation of the inversion method. For more complex probability density functions without analytical inversion, the "hit-or-miss" method represents an alternative sampling approach.
+<b>1.</b> Source coordinates generation using the Inverse Transform Sampling method, followed by a brief theoretical background. The probability density function was selected since this distribution is not directly available as a predefined sampling distribution in either <i>numpy.random</i> or <i>scipy.stats</i>. Additionally, the function is analytically integrable and invertible, allowing direct implementation of the inversion method. For more complex probability density functions without analytical inversion, the "hit-or-miss" method represents an alternative sampling approach.
 </p>
 
 <p>
-2. Construction of localized Gaussian source fields and implementation of stochastic source activation through a discrete-time Poisson process.
+<b>2.</b> Construction of localized Gaussian source fields and implementation of stochastic source activation through a discrete-time Poisson process.
 </p>
 
 <p>
-3. Information regarding the discretization procedure, stability conditions, and boundary conditions. The finite volume formulation includes:
+<b>3.</b> Information regarding the discretization procedure, stability conditions, and boundary conditions. The finite volume formulation includes:
 </p>
 
 <ul>
@@ -51,9 +49,7 @@ Interpolation schemes:
 </ul>
 </li>
 
-<li>
-Volume integrals approximated by the product of the cell-average value and the control-volume size, namely
-</li>
+<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\bar{u}\Delta{V}$$</li>
 
 </ul>
 
