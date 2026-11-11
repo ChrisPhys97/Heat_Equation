@@ -44,22 +44,27 @@
 ><li>The second approach is used in this project. Suppose that the physical domain contains $N$ cells. Instead of eliminating the ghost-point values from the >equations, we calculate them using the boundary conditions and store them in additional positions of the solution array. This allows us to use the same discretized >equation for all physical cells, including those next to the boundaries. When the equation is applied to a boundary cell, it involves indices outside the physical >domain. However, these indices correspond to the ghost points, whose values have already been calculated and stored. Therefore, the same equation can be applied >without any additional treatment of the boundary cells.</li>
 ></ul>
 >
-> An illustration of the one-dimensional domain used in both
-> notebook examples is shown below.
+> An illustration of the one-dimensional domain used in both notebook examples is shown below.
+>
+> [!NOTE]
+> **Computational domain**
+>
+> An illustration of the one-dimensional domain used in both notebook examples is shown below.
 >
 > ```text
->                     Physical domain: x ∈ [0, L]
+>                  Physical domain: x ∈ [0, L]
 >
->      Ghost     |          N physical cells          |     Ghost
->       cell     |                                    |      cell
->   ┌────────────┬────────────┬──────────┬────────────┬────────────┐
->   │            │            │          │            │            │
->   │     ●      │     ●      │   ...    │     ●      │     ●      │
->   │            │     1      │          │     N      │            │
->   └────────────┴────────────┴──────────┴────────────┴────────────┘
->      Ghost_L       x=Δx/2                 x=L−Δx/2      Ghost_R
->                ↑                                    ↑
->               x=0                                  x=L
+>       Ghost     |       N physical cells       |    Ghost
+>        cell     |                              |     cell
+>   ┌─────────────┬─────────────┬─────┬──────────┬─────────────┐
+>   │             │             │     │          │             │
+>   │      ●      │      ●      │ ... │    ●     │      ●      │
+>   │             │      1      │     │    N     │             │
+>   └─────────────┴─────────────┴─────┴──────────┴─────────────┘
+>                 ↑                          ↑
+>                x=0                        x=L
+>
+>      Ghost_L       x=Δx/2      x=L−Δx/2       Ghost_R
 > ```
 >
 >The **extended solution array**, which includes the two ghost-cell values, has $N+2$ entries:
