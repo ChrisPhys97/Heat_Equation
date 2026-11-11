@@ -1,8 +1,6 @@
 <h2>Stochastic Heat Equation</h2>
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 18px;">
-
-This 2D simulation originally started as a heat diffusion homework assignment during numerical methods courses and was progressively upgraded to its current form. Therefore, the project serves both educational and visualization purposes.
+<p>This 2D simulation originally started as a heat diffusion homework assignment during numerical methods courses and was progressively upgraded to its current form. Therefore, the project serves both educational and visualization purposes.</p>
 
 <p>The upgrades include:</p>
 
@@ -12,7 +10,7 @@ This 2D simulation originally started as a heat diffusion homework assignment du
 <li>
 Source locations whose <i>x</i>-coordinates follow the probability density function
 </li>
-
+\f(x)=\pi\sin(\pi x)
 <p align="center">
 <img src="https://latex.codecogs.com/svg.image?f(x)=\pi\sin(\pi&space;x)" />
 </p>
