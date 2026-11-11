@@ -49,17 +49,16 @@
 > ```text
 >                  Physical domain: x ∈ [0, L]
 >
->       Ghost     |       N physical cells       |    Ghost
->        cell     |                              |     cell
->   ┌─────────────┬─────────────┬─────┬──────────┬─────────────┐
->   │             │             │     │          │             │
->   │      ●      │      ●      │ ... │    ●     │      ●      │
->   │             │      1      │     │    N     │             │
->   └─────────────┴─────────────┴─────┴──────────┴─────────────┘
->                 ↑                          ↑
->                x=0                        x=L
->
->      Ghost_L       x=Δx/2      x=L−Δx/2       Ghost_R
+>       Ghost     |       N physical cells      |    Ghost
+>        cell     |                             |     cell
+>   ┌─────────────┬───────────┬─────┬──────────┬─────────────┐
+>   │             │           │     │          │             │
+>   │      ●      │     ●     │ ... │    ●     │      ●      │
+>   │             │     1     │     │    N     │             │
+>   └─────────────┴───────────┴─────┴──────────┴─────────────┘
+>                 ↑                             ↑
+>                x=0                           x=L
+>      Ghost_L        x=Δx/2          x=L−Δx/2     Ghost_R
 > ```
 >
 >The **extended solution array**, which includes the two ghost-cell values, has $N+2$ entries:
