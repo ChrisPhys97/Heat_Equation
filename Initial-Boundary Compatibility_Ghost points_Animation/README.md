@@ -46,11 +46,6 @@
 >
 > An illustration of the one-dimensional domain used in both notebook examples is shown below.
 >
-> [!NOTE]
-> **Computational domain**
->
-> An illustration of the one-dimensional domain used in both notebook examples is shown below.
->
 > ```text
 >                  Physical domain: x ∈ [0, L]
 >
