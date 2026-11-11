@@ -49,7 +49,7 @@ Interpolation schemes:
 </ul>
 </li>
 
-<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\overline{u}\Delta{V}\quad$$ where$$\overline{u}=u_{P}$$</li>
+<li>Volume integrals approximated by the product of the cell-average value and the control-volume size, namely $$\overline{u} \Delta{V}\quad$$ where $$\overline{u}=u_{P}$$</li>
 
 </ul>
 
@@ -66,8 +66,7 @@ Interpolation schemes:
 </ul>
 
 <p>
-The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM), namely the Forward Time-Centered Space (FTCS) scheme.
-</p>
+The resulting formulation yields the same numerical scheme as the Finite Difference Method (FDM) for the interior cells, namely the Forward Time-Centered Space (FTCS) scheme for diffusion, combined with an upwind discretization for advection. By eliminating the ghost points algebraically through the imposed boundary conditions, four separate equations are obtained for the boundary sides and another four for the corresponding corners. This approach highlights the difficulty of deriving the correct boundary equations, as well as the need to implement additional equations beyond the general interior stencil. The procedure becomes even more challenging when dealing with three-dimensional problems. Although explicitly storing ghost points may provide a more convenient alternative for such numerical simulations, deriving the boundary equations can simplify the stability analysis by making the stencil coefficients directly available. A brief derivation of a sufficient stability condition is presented below.</p>
 
 <p>
 <b>4.</b> Time-dependent animation and visualization using Plotly.
