@@ -94,7 +94,9 @@ $$
 R_s=\sum_{j\neq s}|a_{sj}|.
 $$
 
-Therefore, requiring all Gershgorin disks to lie within the unit disk $|\lambda|\leq1$ provides a sufficient condition for the linear stability of the numerical scheme.</p>
+Therefore, requiring all Gershgorin disks to lie within the unit disk $|\lambda|\leq1$ provides a sufficient condition for the linear stability of the numerical scheme. Smith, G. D. (1985).
+<i>Numerical Solution of Partial Differential Equations: Finite Difference Methods</i>.
+3rd ed. Oxford University Press.</p>
 
 
 
