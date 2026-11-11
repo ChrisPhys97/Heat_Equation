@@ -3,13 +3,14 @@
 **1. Initial-boundary compatibility:** 
 
 Is refered to the agreement between the initial and boundary conditions at the corners of the space-time domain. At basic level, this requires their values to match at $(t=0)$. Higher-order compatibility conditions also involve their derivatives and are important for the regularity of the solution.
-For example, consider a rod of length \(L=1)\, with the initial temperature profile:  $$u(x,0)=\sin(\pi x)$$  and suppose that the temperature at both ends remains zero:
+
+For example, consider a rod of length \(*L=1*)\, with the initial temperature profile:  **$$u(x,0)=\sin(\pi x)$$**  and suppose that the temperature at both ends remains zero:
 
 $$u(0,t)=u(L,t)=0,\qquad t>0$$
 
 In this case, the initial and boundary conditions are compatible because the sine profile gives zero temperature at both ends. In fact, this example satisfies the higher-order compatibility conditions as well, and the solution is smooth. 
 
-An incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of 0.5. The boundary conditions can then be represented by a step function in time:
+An incompatible case arises when we retain the same initial temperature profile but impose different boundary conditions. For example, both ends of the rod are suddenly brought into contact with heat sources maintained at a temperature of *0.5*. The boundary conditions can then be represented by a step function in time:
 
 $$
 u(0,t)=u(L,t)=
@@ -19,7 +20,7 @@ u(0,t)=u(L,t)=
 \end{cases}
 $$
 
-<p>These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from 0 to 0.5. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden "jump" in temperature at the boundaries. One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:</p>
+These conditions are incompatible with the initial profile because the temperature at the boundaries changes abruptly from *0* to *0.5*. Consequently, the solution cannot remain continuous at the initial space-time corners. Nevertheless, a solution still exists for positive time, and its visualization shows the sudden "jump" in temperature at the boundaries. One possible approach is to introduce a time-dependent boundary temperature that increases gradually instead of changing instantaneously. This is explored in the second example of the notebook. In particular, we first introduce a linear ramp function:
 
 $$
 u(0,t) = u(L,t) =
@@ -29,7 +30,7 @@ u(0,t) = u(L,t) =
 \end{cases}
 $$
 
-where $T_{r}$ is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at $t=T_{r}$. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
+where **$T_{r}$** is the transition time. This function preserves continuity and satisfies the zeroth-order initial-boundary compatibility condition. However, it does not satisfy the first-order compatibility because its first derivative is discontinuous at *$t=T_{r}$*. Therefore, although the linear ramp removes the initial jump in temperature, it does not guarantee higher-order smoothness. Further treatments using smoother boundary functions are introduced and discussed in more detail in the notebook.<br>
 </br>
 
 **2. Ghost points:** When ghost points are employed to impose boundary conditions, two different approaches can be implemented. 
@@ -68,11 +69,11 @@ $$
 \mathbf{u}_{phys}=[u_1,u_2,\ldots,u_N].
 $$
 
-The main advantage of this approach is that we can use the same discretized equation for all physical cells. The numerical loop runs over the indices $i=1,\ldots,N$, while the discretized equation also involves the neighboring values $u_{i-1}$ and $u_{i+1}$. When the loop reaches the first cell ($i=1$), the term $u_{i-1}$ refers to the left ghost cell ($u_{GL}$). Similarly, at the last cell ($i=N$), the term $u_{i+1}$ refers to the right ghost cell ($u_{GR}$).
+The main advantage of this approach is that we can use the same discretized equation for all physical cells. The numerical loop runs over the indices $i=1,\ldots,N$, while the discretized equation also involves the neighboring values *$u_{i-1}$* and *$u_{i+1}$*. When the loop reaches the first cell ($i=1$), the term *$u_{i-1}$* refers to the left ghost cell (*$u_{GL}$*). Similarly, at the last cell ($i=N$), the term *$u_{i+1}$* refers to the right ghost cell (*$u_{GR}$*).
 
 Since these ghost-cell values have already been calculated from the boundary conditions and stored in the extended array, they are accessed directly through their indices. This allows us to apply the same equation throughout the physical domain without introducing separate discretized equations for the boundary cells.
 <ul>
-<li>The first and simplest example considers an insulated rod of length $L=1$, with the initial temperature profile
+<li>The first and simplest example considers an insulated rod of length *$L=1$*, with the initial temperature profile
 
 $$u(x,0)=\cos(\pi x)$$
 
