@@ -157,7 +157,13 @@ This provides a sufficient spectral stability condition for the complete two-dim
 
 Although Gershgorin's Circle Theorem provides a sufficient condition for spectral stability, it does not necessarily guarantee that the numerical solution remains nonnegative. An additional restriction can be obtained by requiring all coefficients of the explicit discretization to remain nonnegative, ensuring positivity preservation for nonnegative initial conditions and source terms. This approach is also discussed in the [TU Delft MUDE Textbook — Diffusion Equation](https://mude.citg.tudelft.nl/book/2026/numerical_methods_for_PDEs/diffusion_equation.html).
 
-For the present discretization, the most restrictive coefficient occurs at the left Dirichlet boundary, yielding $r\leq1/5$.
+For the present discretization, the most restrictive coefficient occurs at the left Dirichlet boundary, yielding $r\leq1/5$. When advection is included, the stability condition must account for both diffusion and transport. For the present scheme, using Forward Euler in time, central differences for diffusion, and first-order upwind discretization for advection, the most restrictive condition arises from the left Dirichlet boundary. Requiring all stencil coefficients to remain nonnegative gives
+
+$$
+\boxed{5r+2c\leq1},
+$$
+
+where $r=a\Delta t/\Delta x^2$ and $c=U\Delta t/\Delta x$. This provides a sufficient condition for stability and positivity preservation.
 
 </p>
 
