@@ -27,11 +27,21 @@ def Animation(dt,n,t,x,u):
     else:
         return
     
-# --- Central-difference spatial discretization using NumPy slicing. --- 
+# --- Central-difference spatial discretization using NumPy slicing. -------------
 
 def CDS(r,n,u): return r*u[n,2:]+(1-2*r)*u[n,1:-1]+r*u[n,:-2]
 
-# --- Thomas Algorithm ---
+# --------------------------------------------------------------------------------
+
+# --- One FTCS Boundary formula --------------------------------------------------
+
+def FTCS_boundary(u_boundary, u_adjacent, r, dx, a, k, f):
+
+    return (2*r*u_adjacent + (1 - 2*r - 2*r*dx*(a/k))*u_boundary + 2*r*dx*(f/k))
+    
+# ---------------------------------------------------------------------------------
+
+# --- Thomas Algorithm ------------------------------------------------------------
 
 def thomas_solver(Aw, Ap, Ae, Q):
     
@@ -50,63 +60,131 @@ def thomas_solver(Aw, Ap, Ae, Q):
 
     for i in range(n - 2, -1, -1):
         solution[i] = (Q_star[i] - Ae[i] * solution[i + 1])/Ap_star[i]
-
+        
     return solution
 
-# --- Definition of Forward Time - CDS function with fixed diffusivity a=1 ---
- 
-def FTCS(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
-    r=(a*dt)/(dx**2)
-    x=np.arange(0,L+dx,dx)
-    t=np.arange(0,T+dt,dt)
-    u=np.zeros((len(t),len(x)))
+# --- Evaluate a user-defined expression -------------------------------
 
-    # --- Evaluation of formulas for initial and boundary conditions ---
+def evaluate_expression(expression, variable_name, variable):
 
-    u[0,:]=ne.evaluate(TempFormula,local_dict={"x":x,"pi":np.pi})
-    f0=ne.evaluate(f0,local_dict={"x":x,"t":t,"pi":np.pi})
-    fN=ne.evaluate(fN,local_dict={"x":x,"t":t,"pi":np.pi})
+    values = ne.evaluate(str(expression),local_dict={variable_name: variable,"pi": np.pi})
 
-    # --- Program control: Select the boundary-condition type from the coefficients a and k ---
-
-    # --- Heat Coefficients are both zero, Dirichlet boundary conditions: k = 0, so u = f/a---
-
-    if k0==0 and kN==0 and a0!=0 and aN!=0:     
-        if r>0.5:
-            raise ValueError("Unstable problem: FTCS requires r <= 0.5")
-        else:
-            u[:,0]=f0/a0
-            u[:,-1]=fN/aN
-            for n in range(0,len(t)-1):
-                u[n+1,1:-1]=CDS(r,n,u)
+    # Handles constant expressions as well as arrays
     
-    # --- Temperature Coefficients are zero, Neumann boundary conditions: a = 0, so k*u_x = f ---
+    return np.broadcast_to(values, np.shape(variable)).astype(float).copy()
 
-    elif a0==0 and aN==0 and k0!=0 and kN!=0:   
-        if r>0.5:
-            raise ValueError("Unstable problem: FTCS requires r <= 0.5")
+# --- Build boundary forcing arrays -----------------------------------
+
+def boundary_forcing(t, initial_value, new_expression):
+
+    # New prescribed boundary values for n >= 1
+    f = evaluate_expression(new_expression, "t", t)
+
+    # User-supplied initial boundary value at n = 0
+    f[0] = float(initial_value)
+
+    return f
+
+
+# --- Forward Time - Central Difference Scheme ------------------------
+
+def FTCS(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L, T, a=1):
+
+    # --- Input validation ---------------------------------------------
+
+    if dx <= 0 or dt <= 0 or L <= 0 or T <= 0 or a <= 0:
+        raise ValueError("dx, dt, L, T and diffusivity must be positive.")
+
+    if a0 == 0 and k0 == 0:
+        raise ValueError("Invalid left boundary parameters.")
+
+    if aN == 0 and kN == 0:
+        raise ValueError("Invalid right boundary parameters.")
+
+    # --- Grid ---------------------------------------------------------
+
+    x = np.arange(0, L + dx/2, dx)
+    t = np.arange(0, T + dt/2, dt)
+
+    if len(x) < 3: raise ValueError("At least three spatial nodes are required.")
+
+    if len(t) < 2: raise ValueError("At least two time levels are required.")
+
+    if not np.isclose(x[-1], L): raise ValueError("L must be an integer multiple of dx.")
+
+    if not np.isclose(t[-1], T): raise ValueError("T must be an integer multiple of dt.")
+
+    r = a*dt / dx**2
+
+    u = np.zeros((len(t), len(x)))
+
+    # --- Initial temperature profile ----------------------------------
+
+    u[0, :] = evaluate_expression(TempFormula, "x", x)
+
+    # IMPORTANT:
+    # The initial temperature profile is never overwritten.
+
+    # --- Boundary forcing --------------------------------------------
+
+    f0 = boundary_forcing(t, f0_initial, f0)
+    fN = boundary_forcing(t, fN_initial, fN)
+
+    # --- FTCS stability control ---------------------------------------
+
+    r_max = 0.5
+
+    if k0 != 0:
+
+        if a0/k0 < 0:
+            raise ValueError("Invalid left Robin coefficient ratio.")
+
+        r_max = min(r_max, 1 / (2*(1 + dx*a0/k0)))
+
+    if kN != 0:
+
+        if aN/kN < 0:
+            raise ValueError("Invalid right Robin coefficient ratio.")
+
+        r_max = min(r_max,1 / (2*(1 + dx*aN/kN)))
+
+    if r > r_max:
+        raise ValueError(f"Unstable FTCS scheme: r = {r:.6f}, "f"maximum allowed r = {r_max:.6f}")
+
+    # --- Time integration ---------------------------------------------
+
+    for n in range(len(t)-1):
+
+        # Interior nodes
+        u[n+1, 1:-1] = CDS(r, n, u)
+
+        # --- Left boundary --------------------------------------------
+
+        if k0 == 0:
+            # Dirichlet: new temperature at n+1
+            u[n+1, 0] = f0[n+1] / a0
+
         else:
-            for n in range(0,len(t)-1):
-                u[n+1,1:-1]=CDS(r,n,u)
-                u[n+1,0]=2*r*u[n,1]+(1-2*r)*u[n,0]-2*dx*r*(f0/k0)
-                u[n+1,-1]=2*r*u[n,-2]+(1-2*r)*u[n,-1]-2*dx*r*(fN/kN)
+            # Neumann / Robin: forcing at n
+            u[n+1, 0] = FTCS_boundary(u[n, 0],u[n, 1], r, dx, a0, k0, f0[n])
 
-    # --- Robin boundary conditions: k*u_x = f - a*u ----
+        # --- Right boundary -------------------------------------------
 
-    elif k0!=0 and kN!=0:                       
-        if r>min([1/(2+(a0/k0)*dx),1/(2+(aN/kN)*dx)]):
-            raise ValueError("Unstable problem: FTCS requires r <= 0.5")
+        if kN == 0:
+            # Dirichlet: new temperature at n+1
+            u[n+1, -1] = fN[n+1] / aN
+
         else:
-            for n in range(0,len(t)-1):
-                u[n+1,1:-1]=CDS(r,n,u)
-                u[n+1,0]=2*r*u[n,1]+(1-2*r)*u[n,0]+2*dx*r*(a0/k0)*u[n,0]-2*dx*r*(f0/k0)
-                u[n+1,-1]=2*r*u[n,-2]+(1-2*r)*u[n,-1]+2*dx*r*(aN/kN)*u[n,-1]-2*dx*r*(fN/kN)
-    else:
-        n=0
-        raise ValueError("Invalid boundary parameters.")
+            # Neumann / Robin: forcing at n
+            u[n+1, -1] = FTCS_boundary(u[n, -1], u[n, -2], r, dx, aN, kN, fN[n])
+
+    # --- Animation ----------------------------------------------------
 
     plt.close()
-    Animation(dt,n,t,x,u)
+
+    ani = Animation(dt, t, x, u)
+
+    return x, t, u
 
 # --- Crank-Nicolson Scheme function ---
 
