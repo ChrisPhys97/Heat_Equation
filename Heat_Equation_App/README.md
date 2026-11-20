@@ -164,7 +164,10 @@ $$
 The remaining values are calculated recursively:
 
 $$
-u_i=\frac{Q_i^{*}-A_E^i u_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0.
+u_i=
+\frac{Q_i^{*}-A_E^i u_{i+1}}
+{A_P^{*i}},
+\qquad i=N-1,\ldots,0.
 $$
 
 In `HeatLib.py`, `Ap_star` stores the modified main diagonal and `Q_star` stores the modified right-hand-side vector.
@@ -238,9 +241,14 @@ The initial values are supplied directly by the user. HeatLib does not calculate
 
 The boundary forcing arrays are constructed as
 
+
 $$
-f_b^n=\begin{cases}f_{b,\mathrm{initial}},&n=0,\f_{b,\mathrm{new}}(t_n),&n\geq1.\end{cases}
+\begin{cases}
+f_b^n = f_{b,\mathrm{initial}}, & n = 0 \\[6pt]
+f_b^n = f_{b,\mathrm{new}}(t_n), & n \geq 1
+\end{cases}
 $$
+
 
 The initial temperature profile is preserved in `u[0, :]` without modification.
 
