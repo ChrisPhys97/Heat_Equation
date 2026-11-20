@@ -144,7 +144,7 @@ $$
 The modified right-hand side is
 
 $$
-Q_i^{*}=Q_i-\frac{A_W^i Q_{i-1}^{*}}{A_P^{*(i-1)}}.
+Q_i^{*}={Q_i}-\frac{A_W^{i} Q_{i-1}^{*}}{A_P^{*(i-1)}}.
 $$
 
 The first row remains unchanged:
@@ -239,7 +239,7 @@ The initial values are supplied directly by the user. HeatLib does not calculate
 The boundary forcing arrays are constructed as
 
 $$
-f_b^n=\begin{cases}f_{b,\mathrm{initial}},&n=0,\\f_{b,\mathrm{new}}(t_n),&n\geq1.\end{cases}
+f_b^n=\begin{cases}f_{b,\mathrm{initial}},&n=0,\f_{b,\mathrm{new}}(t_n),&n\geq1.\end{cases}
 $$
 
 The initial temperature profile is preserved in `u[0, :]` without modification.
