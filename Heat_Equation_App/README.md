@@ -196,8 +196,7 @@ $$
 - **Neumann:** Setting $a_b=0$ gives
 
 $$
-\frac{\partial u}{\partial n}
-=
+\frac{\partial u}{\partial n}=
 \frac{f_b(t)}{k_b},
 \qquad k_b\neq0.
 $$
@@ -226,8 +225,7 @@ $$
 the initial boundary forcing must satisfy
 
 $$
-f_b^0
-=
+f_b^0=
 a_b\phi(x_b)
 +
 k_b\left.\frac{\partial\phi}{\partial n}\right|_{x_b}.
@@ -272,8 +270,7 @@ The initial temperature profile is stored in `u[0, :]` and is never overwritten 
 The FTCS scheme updates the interior nodes using the standard explicit finite-difference approximation:
 
 $$
-u_i^{n+1}
-=
+u_i^{n+1}=
 u_i^n
 +
 r\left(
@@ -294,8 +291,7 @@ The boundary nodes require a separate numerical treatment.
 For Dirichlet conditions, the boundary temperature is explicitly prescribed and assigned directly at the new time level:
 
 $$
-u_b^{n+1}
-=
+u_b^{n+1}=
 \frac{f_b^{n+1}}{a_b}.
 $$
 
@@ -317,8 +313,7 @@ For Neumann and Robin conditions, $k_b\neq0$, and the boundary derivative is app
 At the left boundary, the outward-normal derivative is
 
 $$
-\left.\frac{\partial u}{\partial n}\right|_{x=0}
-=
+\left.\frac{\partial u}{\partial n}\right|_{x=0}=
 -\left.\frac{\partial u}{\partial x}\right|_{x=0}.
 $$
 
@@ -335,16 +330,14 @@ Substituting this approximation into the general boundary condition yields
 $$
 a_0u_0^n
 +
-k_0\frac{u_{-1}^n-u_1^n}{2\Delta x}
-=
+k_0\frac{u_{-1}^n-u_1^n}{2\Delta x}=
 f_0^n.
 $$
 
 Solving for the ghost-node temperature,
 
 $$
-u_{-1}^n
-=
+u_{-1}^n=
 u_1^n
 +
 \frac{2\Delta x}{k_0}
@@ -354,8 +347,7 @@ $$
 The FTCS equation at the left boundary is
 
 $$
-u_0^{n+1}
-=
+u_0^{n+1}=
 u_0^n
 +
 r\left(
@@ -366,8 +358,7 @@ $$
 Substituting the ghost-node expression gives
 
 $$
-u_0^{n+1}
-=
+u_0^{n+1}=
 2ru_1^n
 +
 \left(
@@ -380,8 +371,7 @@ $$
 Using the outward-normal convention, the right boundary has the corresponding form
 
 $$
-u_N^{n+1}
-=
+u_N^{n+1}=
 2ru_{N-1}^n
 +
 \left(
