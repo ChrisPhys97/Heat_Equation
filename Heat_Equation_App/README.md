@@ -144,13 +144,13 @@ $$
 The modified right-hand side is
 
 $$
-Q_i^*=Q_i-\frac{A_W^i Q_{i-1}^*}{A_P^{*(i-1)}}.
+Q_i^{*}=Q_i-\frac{A_W^i Q_{i-1}^{*}}{A_P^{*(i-1)}}.
 $$
 
 The first row remains unchanged:
 
 $$
-A_P^{*0}=A_P^0,\qquad Q_0^*=Q_0.
+A_P^{*0}=A_P^0,\qquad Q_0^{*}=Q_0.
 $$
 
 ### Backward Substitution
@@ -158,13 +158,13 @@ $$
 After forward elimination, the final unknown is obtained from
 
 $$
-u_N=\frac{Q_N^*}{A_P^{*N}}.
+u_N=\frac{Q_N^{*}}{A_P^{*N}}.
 $$
 
 The remaining values are calculated recursively:
 
 $$
-u_i=\frac{Q_i^*-A_E^i u_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0.
+u_i=\frac{Q_i^{*}-A_E^i u_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0.
 $$
 
 In `HeatLib.py`, `Ap_star` stores the modified main diagonal and `Q_star` stores the modified right-hand-side vector.
