@@ -1,238 +1,442 @@
-<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+# Heat Equation App
 
-The Heat Equation App is a Python-based solver for one-dimensional heat diffusion problems. The program provides an interactive Graphical User Interface (GUI) that allows users to choose between two numerical methods, specify the boundary conditions, and define the physical and numerical parameters of the problem, including the spatial domain, simulation time, and discretization steps.
+The **Heat Equation App** is a Python-based numerical solver for one-dimensional heat diffusion problems. The application provides an interactive Graphical User Interface (GUI) that allows users to select a numerical method, define the initial temperature distribution, specify boundary conditions, and configure the physical and numerical parameters of the problem.
 
-The available numerical methods are the Forward-Time Centered-Space (FTCS) scheme and the Crank–Nicolson method. Boundary conditions can be specified as Dirichlet, Neumann, or Robin, with support for both steady-state and time-dependent conditions. Once the problem is defined, the numerical solution is computed and visualized through an animated representation of the temperature distribution.
+Two finite-difference methods are implemented: the **Forward-Time Centered-Space (FTCS)** scheme and the **Crank–Nicolson method**. Both support Dirichlet, Neumann, and Robin boundary conditions, including mixed configurations and time-dependent boundary forcing.
 
-</div>
+An important feature of the application is the separate specification of the initial boundary conditions and the boundary conditions imposed during the subsequent evolution. The user is responsible for calculating initial boundary values consistent with the prescribed initial temperature distribution.
+
+Once the problem is defined, the numerical solution is computed and visualized through an animated representation of the temperature distribution.
 
 ## Project Structure
 
-The application is divided into two modules:
+The application is divided into two Python modules:
 
-- **Mini_1D_Heat_App.py**: Tkinter-based GUI responsible for user interaction and problem setup.
-- **HeatLib.py**: Numerical library implementing the FTCS and Crank–Nicolson schemes, boundary-condition treatment, the Thomas algorithm for tridiagonal systems, and solution visualization.
+- **`Mini_1D_Heat_App.py`** — Tkinter-based GUI responsible for user interaction, parameter input, and numerical method selection.
+- **`HeatLib.py`** — Numerical library implementing the FTCS and Crank–Nicolson schemes, boundary-condition treatment, the Thomas algorithm for tridiagonal systems, and solution visualization.
 
-The GUI collects the user-defined parameters and passes them to HeatLib, where the numerical solution of the heat equation is performed.
+The GUI collects the user-defined parameters and passes them to the numerical routines in `HeatLib.py`. The numerical library can also be used independently of the graphical interface.
 
-<h2>Mathematical Model</h2>
+## Mathematical Model
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+The application solves the one-dimensional heat equation
 
-<p>
-The Heat Equation App solves the one-dimensional heat equation
-</p>
+\[
+\frac{\partial u}{\partial t}
+=
+\alpha\frac{\partial^2u}{\partial x^2}
+\tag{1}
+\]
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\frac{\partial&space;u}{\partial&space;t}=a_{T}\frac{\partial^2&space;u}{\partial&space;x^2}\qquad{(1)}" />
-</p>
+where \(u(x,t)\) denotes the temperature distribution and \(\alpha\) is the constant thermal diffusivity.
 
-<p>
-where <code>u(x,t)</code> denotes the temperature distribution and <code>a<sub>T</sub></code> is the thermal diffusivity. The boundary conditions are written in the general form
-</p>
+The spatial domain and simulation interval are defined by
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au\qquad{(2)}" />
-</p>
+\[
+0\leq x\leq L,\qquad 0\leq t\leq T.
+\]
 
-<p>
-which allows the implementation of Dirichlet, Neumann, and Robin boundary conditions by appropriate choices of the coefficients <code>a</code>, <code>k</code> and <code>f</code>.
-</p>
+The initial condition is prescribed as
 
-<h3>Numerical Methods</h3>
+\[
+u(x,0)=\phi(x).
+\tag{2}
+\]
 
-<p>
-Two finite-difference schemes are implemented:
-</p>
+The general boundary condition is written as
 
-<ul>
-  <li>
-    <strong>Forward-Time Centered-Space (FTCS):</strong>
-    an explicit method combining a forward Euler discretization in time with a second-order central difference approximation in space. The spatial discretization is implemented using NumPy slicing for computational efficiency.
-  </li>
-  <li>
-    <strong>Crank–Nicolson:</strong>
-    an implicit second-order accurate method obtained by averaging the spatial operator between consecutive time levels. At each time step, the method leads to the solution of a tridiagonal linear system.
-  </li>
-</ul>
+\[
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),
+\tag{3}
+\]
 
-<h3>Tridiagonal System</h3>
+where \(a_b\) and \(k_b\) are boundary coefficients, \(f_b(t)\) is the prescribed boundary forcing, and \(\partial u/\partial n\) denotes the derivative along the outward normal.
 
-<p>
-The Crank–Nicolson discretization produces, for each node,
-</p>
+For a one-dimensional domain, the outward-normal derivatives are
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_W^i\Phi_{i-1}+A_P^i\Phi_i+A_E^i\Phi_{i+1}=Q_i" />
-</p>
+\[
+\left.\frac{\partial u}{\partial n}\right|_{x=0}
+=
+-\left.\frac{\partial u}{\partial x}\right|_{x=0}
+\]
 
-<p>
-where <code>A<sub>W</sub></code> denotes the lower diagonal coefficient, <code>A<sub>P</sub></code> the main diagonal coefficient, <code>A<sub>E</sub></code> the upper diagonal coefficient, and <code>Q</code> the forcing vector. Consequently, the coefficient matrix is tridiagonal.
-</p>
+and
 
-<h3>Thomas Algorithm</h3>
+\[
+\left.\frac{\partial u}{\partial n}\right|_{x=L}
+=
++\left.\frac{\partial u}{\partial x}\right|_{x=L}.
+\]
 
-<p>
-The tridiagonal system is solved using the Thomas algorithm, a specialized form of Gaussian elimination for tridiagonal matrices. Instead of storing and manipulating the full coefficient matrix, the algorithm operates directly on the three diagonals.
-</p>
+This convention allows the same boundary-update formula to be used at both ends of the domain.
 
-<p>
-During the forward elimination step, the main diagonal and forcing term are modified recursively:
-</p>
+## Numerical Methods
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?A_P^{*i}=A_P^i-\frac{A_W^iA_E^{i-1}}{A_P^{*(i-1)}}" />
-  &nbsp;&nbsp;&nbsp;
-  which corresponds to <code>Ap_star</code>.
-</p>
+### Forward-Time Centered-Space (FTCS)
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?Q_i^*=Q_i-\frac{A_W^iQ_{i-1}^*}{A_P^{*(i-1)}}" />
-  &nbsp;&nbsp;&nbsp;
-  which corresponds to <code>Q_star</code>.
-</p>
+The FTCS scheme combines a forward Euler approximation in time with a second-order central difference approximation in space.
 
-<p>
-The first row is not modified:
-</p>
+For an interior node \(i\), the discretized equation is
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?{A_P^{0*}=A_P^0},\qquad{Q_0^*=Q_0}" />
-</p>
+\[
+u_i^{n+1}
+=
+u_i^n+
+r\left(
+u_{i+1}^n-2u_i^n+u_{i-1}^n
+\right),
+\tag{4}
+\]
 
-<p>
-Once the forward elimination is complete, the solution is recovered through backward substitution:
-</p>
+where
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\Phi_N=\frac{Q_N^*}{A_P^{*N}}" />
-</p>
+\[
+r=\frac{\alpha\Delta t}{\Delta x^2}.
+\]
 
-<p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\Phi_i=\frac{Q_i^*-A_E^i\Phi_{i+1}}{A_P^{i*}},\qquad{i=N-1,\ldots,0}" />
-</p>
+The spatial discretization is implemented using NumPy slicing, avoiding explicit loops over the interior nodes.
 
-<p>
-In the implementation, <code>Ap_star</code> stores the modified main diagonal and <code>Q_star</code> stores the modified forcing vector generated during forward elimination. The backward substitution then reconstructs the solution vector from the last node to the first.
-</p>
+For standard interior-node stability, the FTCS scheme requires
 
-<h3>Boundary Condition Handling</h3>
+\[
+r\leq\frac12.
+\]
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+Neumann and Robin boundary conditions may introduce additional restrictions. The implementation checks a sufficient stability condition based on the boundary coefficients when their ratios are nonnegative.
 
-<p>
-The Heat Equation App employs the general linear boundary condition, equation (2), where <code>a</code>, <code>k</code>, and <code>f</code> may depend on time. This formulation allows the three most common boundary-condition types to be treated within a unified framework.
-</p>
+### Crank–Nicolson Method
 
-<ul>
-<li>
-<strong>Dirichlet boundary conditions</strong> are obtained by setting
-<code>k=0</code>, giving
-</li>
-</ul>
+The Crank–Nicolson method is an implicit finite-difference scheme obtained by averaging the spatial diffusion operator between consecutive time levels.
 
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?u=\frac{f}{a}"/>
-</p>
+For interior nodes,
 
-<ul>
-<li>
-<strong>Neumann boundary conditions</strong> are obtained by setting
-<code>a=0</code>, yielding
-</li>
-</ul>
+\[
+\begin{aligned}
+-r u_{i-1}^{n+1}
++(2+2r)u_i^{n+1}
+-r u_{i+1}^{n+1}
+={}&
+r u_{i-1}^{n}\\
+&+(2-2r)u_i^n
++r u_{i+1}^n.
+\end{aligned}
+\tag{5}
+\]
 
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f"/>
-</p>
+The method is second-order accurate in time and space for sufficiently smooth solutions and boundary data.
 
-<ul>
-<li>
-<strong>Robin boundary conditions</strong> correspond to the general case where both coefficients are non-zero:
-</li>
-</ul>
+Unlike FTCS, Crank–Nicolson is not subject to the standard explicit diffusion stability restriction. However, its numerical accuracy still depends on the chosen spatial and temporal resolutions.
 
-<p align="center">
-<img src="https://latex.codecogs.com/svg.image?k\frac{\partial&space;u}{\partial&space;x}=f-au"/>
-</p>
+At every time step, the discretization produces a tridiagonal linear system.
 
-<p>
-The program automatically determines the appropriate numerical treatment by examining the boundary coefficients supplied by the user:
-</p>
+## Tridiagonal System
 
-<ul>
-<li><code>k=0</code> and <code>a≠0</code> &rarr; Dirichlet.</li>
-<li><code>a=0</code> and <code>k≠0</code> &rarr; Neumann.</li>
-<li><code>a≠0</code> and <code>k≠0</code> &rarr; Robin.</li>
-</ul>
+The Crank–Nicolson discretization produces equations of the form
 
-<p>
-This unified implementation avoids the need for separate solvers for different boundary-condition types and naturally accommodates both steady-state and time-dependent boundary data. At present, mixed boundary-condition configurations, such as Dirichlet on one side and Neumann or Robin on the other, are not yet implemented. This is a planned extension of the boundary-condition handling.
-</p>
+\[
+A_W^i u_{i-1}^{n+1}
++
+A_P^i u_i^{n+1}
++
+A_E^i u_{i+1}^{n+1}
+=
+Q_i,
+\tag{6}
+\]
 
-<h2>Graphical User Interface</h2>
+where:
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+- \(A_W\) represents the lower diagonal coefficient.
+- \(A_P\) represents the main diagonal coefficient.
+- \(A_E\) represents the upper diagonal coefficient.
+- \(Q\) represents the right-hand-side vector.
 
-<p>
-The graphical interface is implemented in <code>Mini_1D_Heat_App.py</code> using the Tkinter library. Its purpose is to provide a simple user-friendly layer between the user and the numerical routines defined in <code>HeatLib.py</code>.
-</p>
+The coefficient matrix is therefore tridiagonal.
 
-<p>
-When the application starts, the main window allows the user to select the numerical method used to solve the heat equation. The available options are:
-</p>
+The current implementation constructs the three diagonals directly and solves the resulting system without assembling a full dense matrix.
 
-<ul>
-  <li><strong>FTCS</strong>: explicit Forward-Time Centered-Space method.</li>
-  <li><strong>Crank–Nicolson</strong>: implicit method solved using the Thomas algorithm.</li>
-</ul>
+Boundary conditions are incorporated into the first and last equations of the system, allowing Dirichlet, Neumann, Robin, and mixed boundary-condition configurations.
 
-<p>
-After selecting the method and pressing <code>Submit</code>, a second window is opened where the user defines the initial condition, boundary-condition coefficients, heat flux terms, spatial step, time step, domain length, and final simulation time.
-</p>
+## Thomas Algorithm
 
-<p>
-The GUI collects the user input from the entry fields and passes these values to the corresponding solver function in <code>HeatLib.py</code>. String expressions such as <code>sin(pi*x)</code>, <code>cos(pi*x)</code>, or time-dependent boundary terms such as <code>sin(2*pi*t)</code> are passed directly to the numerical library, where they are evaluated using <code>numexpr</code>.
-</p>
+The tridiagonal system is solved using the **Thomas algorithm**, a specialized form of Gaussian elimination for tridiagonal matrices.
 
-<p>
-The interface also performs basic input validation. If a numerical field contains invalid data, a warning message is displayed instead of running the simulation. After successful input collection, the selected numerical method is executed and the resulting temperature field is visualized through an animated plot.
-</p>
+Instead of storing and manipulating the full coefficient matrix, the algorithm operates directly on its three diagonals.
 
-<p>
-The GUI is intentionally kept separate from the numerical solver. This separation makes the project easier to maintain and extend: the interface handles user interaction, while <code>HeatLib.py</code> contains the mathematical and numerical implementation.
-</p>
+### Forward elimination
 
-</div>
+The modified main diagonal is calculated recursively:
 
-<h2>Future Development</h2>
+\[
+A_P^{*i}
+=
+A_P^i-
+\frac{A_W^i A_E^{i-1}}
+{A_P^{*(i-1)}}.
+\tag{7}
+\]
 
-<div style="text-align: justify; text-justify: inter-word; font-size: 16px;">
+The modified right-hand side is
 
-<ul>
-  <li>
-    <strong>Mixed boundary conditions:</strong>
-    support for configurations such as Dirichlet–Neumann, Dirichlet–Robin, and Neumann–Robin boundary conditions.
-  </li>
+\[
+Q_i^*
+=
+Q_i-
+\frac{A_W^i Q_{i-1}^*}
+{A_P^{*(i-1)}}.
+\tag{8}
+\]
 
-  <li>
-    <strong>Returning numerical arrays:</strong>
-    modification of the solver functions so that <code>x</code>, <code>t</code>, and <code>u</code> are returned for further post-processing, validation, and custom visualization.
-  </li>
+The first row remains unchanged:
 
-  <li>
-    <strong>Variable thermal diffusivity:</strong>
-    extension of the mathematical model to allow the diffusivity coefficient to vary with space or temperature.
-  </li>
-</ul>
+\[
+A_P^{*0}=A_P^0,\qquad Q_0^*=Q_0.
+\]
 
-</div>
+### Backward substitution
 
-### References
+After forward elimination, the final unknown is obtained from
 
-Ferziger, J. H., & Perić, M.
-Computational Methods for Fluid Dynamics,
-4th Edition,
-Springer
+\[
+u_N=\frac{Q_N^*}{A_P^{*N}}.
+\tag{9}
+\]
 
-</div>
+The remaining values are calculated recursively:
+
+\[
+u_i=
+\frac{Q_i^*-A_E^i u_{i+1}}
+{A_P^{*i}},
+\qquad i=N-1,\ldots,0.
+\tag{10}
+\]
+
+In `HeatLib.py`, `Ap_star` stores the modified main diagonal and `Q_star` stores the modified right-hand-side vector.
+
+The Thomas algorithm has linear computational complexity, making it efficient for one-dimensional diffusion problems.
+
+## Boundary Condition Handling
+
+The application supports three types of boundary conditions through the general formulation
+
+\[
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t).
+\]
+
+### Dirichlet Boundary Conditions
+
+Dirichlet conditions prescribe the boundary temperature.
+
+Setting \(k_b=0\) gives
+
+\[
+u_b(t)=\frac{f_b(t)}{a_b},
+\qquad a_b\neq0.
+\tag{11}
+\]
+
+The prescribed temperature is assigned directly to the boundary node.
+
+### Neumann Boundary Conditions
+
+Neumann conditions prescribe the outward-normal temperature gradient.
+
+Setting \(a_b=0\) gives
+
+\[
+\frac{\partial u}{\partial n}
+=
+\frac{f_b(t)}{k_b},
+\qquad k_b\neq0.
+\tag{12}
+\]
+
+A second-order central difference with ghost nodes is used to incorporate the boundary gradient into the numerical scheme.
+
+### Robin Boundary Conditions
+
+Robin conditions combine the boundary temperature and its outward-normal gradient:
+
+\[
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),
+\qquad a_b\neq0,\quad k_b\neq0.
+\tag{13}
+\]
+
+As with Neumann conditions, ghost-node approximations are used to derive the boundary equations.
+
+### Initial and Prescribed Boundary Values
+
+The user must provide **two boundary values for each side of the domain**:
+
+1. The initial boundary value at \(n=0\), calculated from the initial temperature distribution.
+2. The new prescribed boundary value or expression for \(n\geq1\).
+
+For the initial temperature distribution
+
+\[
+u(x,0)=\phi(x),
+\]
+
+the required initial boundary values are:
+
+| Condition | Initial boundary value |
+|---|---|
+| Dirichlet | \(f_b^0=a_b\phi(x_b)\) |
+| Neumann | \(f_b^0=k_b\,\partial\phi/\partial n\) |
+| Robin | \(f_b^0=a_b\phi(x_b)+k_b\,\partial\phi/\partial n\) |
+
+The initial values are supplied directly by the user. HeatLib does not calculate them automatically.
+
+The boundary forcing arrays are constructed as
+
+\[
+f_b^n=
+\begin{cases}
+f_{b,\mathrm{initial}},&n=0,\\
+f_{b,\mathrm{new}}(t_n),&n\geq1.
+\end{cases}
+\tag{14}
+\]
+
+The initial temperature profile is preserved in `u[0, :]` without modification.
+
+### Time Discretization of Boundary Conditions
+
+The two numerical methods handle the boundary forcing differently.
+
+For FTCS, Neumann and Robin boundary updates use the forcing at the current time level, \(f_b^n\).
+
+For Crank–Nicolson, the boundary forcing enters through the trapezoidal average of \(f_b^n\) and \(f_b^{n+1}\).
+
+Consequently, sudden boundary changes can produce different first-step responses in the two methods.
+
+Dirichlet conditions are imposed directly at the new time level in both methods.
+
+### Mixed Boundary Conditions
+
+The current implementation supports independent boundary-condition types at the left and right boundaries.
+
+For example, the user can prescribe:
+
+- Dirichlet on the left and Neumann on the right.
+- Dirichlet on the left and Robin on the right.
+- Neumann on the left and Robin on the right.
+
+The program identifies the boundary-condition type from the coefficients:
+
+| Coefficients | Boundary condition |
+|---|---|
+| \(k_b=0,\ a_b\neq0\) | Dirichlet |
+| \(a_b=0,\ k_b\neq0\) | Neumann |
+| \(a_b\neq0,\ k_b\neq0\) | Robin |
+
+The same numerical solver is used for all supported configurations.
+
+## Graphical User Interface
+
+The GUI is implemented in `Mini_1D_Heat_App.py` using Tkinter.
+
+The application starts with a method-selection window, where the user chooses between FTCS and Crank–Nicolson.
+
+After selecting a method, the parameter window opens.
+
+The updated interface uses a **two-column layout**:
+
+- **Left panel:** initial temperature distribution, boundary coefficients, initial and new boundary values, and numerical parameters.
+- **Right panel:** mathematical boundary-condition formulation and explanations for Dirichlet, Neumann, and Robin conditions.
+
+The user provides the following parameters:
+
+| Parameter | Description |
+|---|---|
+| Initial Temperature | Mathematical expression defining \(\phi(x)\) |
+| Left and Right \(a\) | Boundary temperature coefficients |
+| Initial Left and Right Boundary Values | Boundary forcing values at \(n=0\) |
+| New Left and Right Boundary \(f\) | Prescribed forcing expressions for \(n\geq1\) |
+| Left and Right \(k\) | Boundary gradient coefficients |
+| Spatial step `dx` | Spatial grid resolution |
+| Time step `dt` | Temporal resolution |
+| `L` | Domain length |
+| `T` | Final simulation time |
+
+Mathematical expressions such as `sin(pi*x)`, `cos(pi*x)`, and `sin(2*pi*t)` are evaluated using `numexpr`.
+
+The GUI performs basic numerical input validation, while HeatLib performs additional checks on grid parameters, boundary coefficients, and FTCS stability.
+
+After the simulation is completed, the temperature distribution is displayed through a Matplotlib animation.
+
+The GUI remains separate from the numerical library, allowing the solvers to be used independently for numerical experiments and further analysis.
+
+## Example Problem
+
+Consider the initial temperature distribution
+
+\[
+u(x,0)=\cos(\pi x),
+\qquad 0\leq x\leq1.
+\]
+
+Suppose Dirichlet boundary conditions are imposed, with both boundary temperatures changing to \(0.5\) from \(n=1\).
+
+The initial boundary temperatures are
+
+\[
+u(0,0)=1,\qquad u(1,0)=-1.
+\]
+
+For \(a_0=a_N=1\) and \(k_0=k_N=0\), the corresponding forcing values are:
+
+| Parameter | Value |
+|---|---|
+| Initial Temperature | `cos(pi*x)` |
+| Left \(a\) | `1` |
+| Right \(a\) | `1` |
+| Initial Left Boundary Value | `1` |
+| Initial Right Boundary Value | `-1` |
+| New Left Boundary \(f\) | `0.5` |
+| New Right Boundary \(f\) | `0.5` |
+| Left \(k\) | `0` |
+| Right \(k\) | `0` |
+
+The initial cosine profile is preserved at \(n=0\). From the first new time level onward, the boundary temperatures are prescribed as \(0.5\).
+
+The numerical solution then evolves according to the one-dimensional heat equation.
+
+## Solution Visualization
+
+The computed temperature field is stored in a two-dimensional NumPy array,
+
+\[
+u[n,i]\approx u(x_i,t_n).
+\]
+
+The numerical library returns the spatial coordinates, time coordinates, and temperature field:
+
+```python
+x, t, u = FTCS(...)
+```
+
+or
+
+```python
+x, t, u = CrankNicolson(...)
+```
+
+The solution is also visualized through a Matplotlib animation.
+
+For small time steps, intermediate frames may be skipped to improve animation performance without changing the numerical solution.
+
+Returning the numerical arrays allows additional post-processing, including comparison with analytical solutions, error analysis, and grid-convergence studies.
+
+## Future Development
+
+- **Numerical verification:** systematic comparison against analytical solutions and convergence studies for both numerical methods.
+- **Variable thermal diffusivity:** extension to diffusivity coefficients that depend on space or temperature.
+- **Additional visualization tools:** improved plotting controls, export of numerical results, and comparison of multiple simulations.
+- **Extended physical models:** possible inclusion of source terms and advection–diffusion equations.
+
+## References
+
+Ferziger, J. H., & Perić, M. *Computational Methods for Fluid Dynamics*. Springer.
