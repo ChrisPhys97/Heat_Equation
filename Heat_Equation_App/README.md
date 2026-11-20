@@ -242,7 +242,7 @@ The boundary forcing arrays are constructed as
 $$
 \begin{cases}
 f_b^n = f_{b,\mathrm{initial}}, & n = 0 \\
-f_b^n = f_{b,\mathrm{new}}(t_n), & n \geq 1
+\rule{0pt}{24pt}f_b^n = f_{b,\mathrm{new}}(t_n), & n \geq 1
 \end{cases}
 $$
 
