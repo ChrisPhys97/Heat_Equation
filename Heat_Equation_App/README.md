@@ -37,13 +37,13 @@ $$
 The initial condition is prescribed as
 
 $$
-u(x,0)=\phi(x).\tag{2}
+u(x,0)=\phi(x).
 $$
 
 The general boundary condition is written as
 
 $$
-a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),\tag{3}
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),
 $$
 
 where $a_b$ and $k_b$ are boundary coefficients, $f_b(t)$ is the prescribed boundary forcing, and $\partial u/\partial n$ denotes the derivative along the outward normal.
@@ -51,15 +51,13 @@ where $a_b$ and $k_b$ are boundary coefficients, $f_b(t)$ is the prescribed boun
 For a one-dimensional domain, the outward-normal derivatives are
 
 $$
-\left.\frac{\partial u}{\partial n}\right|_{x=0}=
--\left.\frac{\partial u}{\partial x}\right|_{x=0}
+\left.\frac{\partial u}{\partial n}\right|_{x=0}=-\left.\frac{\partial u}{\partial x}\right|_{x=0}
 $$
 
 and
 
 $$
-\left.\frac{\partial u}{\partial n}\right|_{x=L}=
-+\left.\frac{\partial u}{\partial x}\right|_{x=L}.
+\left.\frac{\partial u}{\partial n}\right|_{x=L}=+\left.\frac{\partial u}{\partial x}\right|_{x=L}.
 $$
 
 This convention allows the same boundary-update formula to be used at both ends of the domain.
@@ -73,7 +71,7 @@ The FTCS scheme combines a forward Euler approximation in time with a second-ord
 For an interior node $i$, the discretized equation is
 
 $$
-u_i^{n+1}=u_i^n+r\left(u_{i+1}^n-2u_i^n+u_{i-1}^n\right),\tag{4}
+u_i^{n+1}=u_i^n+r\left(u_{i+1}^n-2u_i^n+u_{i-1}^n\right),
 $$
 
 where
@@ -99,7 +97,7 @@ The Crank–Nicolson method is an implicit finite-difference scheme obtained by 
 For interior nodes,
 
 $$
-\begin{aligned}-r u_{i-1}^{n+1}+(2+2r)u_i^{n+1}-r u_{i+1}^{n+1}={}&r u_{i-1}^{n}\\&+(2-2r)u_i^n+r u_{i+1}^n.\end{aligned}\tag{5}
+\begin{aligned}-r u_{i-1}^{n+1}+(2+2r)u_i^{n+1}-r u_{i+1}^{n+1}={}&r u_{i-1}^{n}\\&+(2-2r)u_i^n+r u_{i+1}^n.\end{aligned}
 $$
 
 The method is second-order accurate in time and space for sufficiently smooth solutions and boundary data.
@@ -113,7 +111,7 @@ At every time step, the discretization produces a tridiagonal linear system.
 The Crank–Nicolson discretization produces equations of the form
 
 $$
-A_W^i u_{i-1}^{n+1}+A_P^i u_i^{n+1}+A_E^i u_{i+1}^{n+1}=Q_i,\tag{6}
+A_W^i u_{i-1}^{n+1}+A_P^i u_i^{n+1}+A_E^i u_{i+1}^{n+1}=Q_i,
 $$
 
 where:
@@ -140,13 +138,13 @@ Instead of storing and manipulating the full coefficient matrix, the algorithm o
 The modified main diagonal is calculated recursively:
 
 $$
-A_P^{*i}=A_P^i-\frac{A_W^i A_E^{i-1}}{A_P^{*(i-1)}}.\tag{7}
+A_P^{*i}=A_P^i-\frac{A_W^i A_E^{i-1}}{A_P^{*(i-1)}}.
 $$
 
 The modified right-hand side is
 
 $$
-Q_i^*=Q_i-\frac{A_W^i Q_{i-1}^*}{A_P^{*(i-1)}}.\tag{8}
+Q_i^*=Q_i-\frac{A_W^i Q_{i-1}^*}{A_P^{*(i-1)}}.
 $$
 
 The first row remains unchanged:
@@ -160,13 +158,13 @@ $$
 After forward elimination, the final unknown is obtained from
 
 $$
-u_N=\frac{Q_N^*}{A_P^{*N}}.\tag{9}
+u_N=\frac{Q_N^*}{A_P^{*N}}.
 $$
 
 The remaining values are calculated recursively:
 
 $$
-u_i=\frac{Q_i^*-A_E^i u_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0.\tag{10}
+u_i=\frac{Q_i^*-A_E^i u_{i+1}}{A_P^{*i}},\qquad i=N-1,\ldots,0.
 $$
 
 In `HeatLib.py`, `Ap_star` stores the modified main diagonal and `Q_star` stores the modified right-hand-side vector.
@@ -188,7 +186,7 @@ Dirichlet conditions prescribe the boundary temperature.
 Setting $k_b=0$ gives
 
 $$
-u_b(t)=\frac{f_b(t)}{a_b},\qquad a_b\neq0.\tag{11}
+u_b(t)=\frac{f_b(t)}{a_b},\qquad a_b\neq0.
 $$
 
 The prescribed temperature is assigned directly to the boundary node.
@@ -200,7 +198,7 @@ Neumann conditions prescribe the outward-normal temperature gradient.
 Setting $a_b=0$ gives
 
 $$
-\frac{\partial u}{\partial n}=\frac{f_b(t)}{k_b},\qquad k_b\neq0.\tag{12}
+\frac{\partial u}{\partial n}=\frac{f_b(t)}{k_b},\qquad k_b\neq0.
 $$
 
 A second-order central difference with ghost nodes is used to incorporate the boundary gradient into the numerical scheme.
@@ -210,7 +208,7 @@ A second-order central difference with ghost nodes is used to incorporate the bo
 Robin conditions combine the boundary temperature and its outward-normal gradient:
 
 $$
-a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),\qquad a_b\neq0,\quad k_b\neq0.\tag{13}
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t),\qquad a_b\neq0,\quad k_b\neq0.
 $$
 
 As with Neumann conditions, ghost-node approximations are used to derive the boundary equations.
@@ -241,7 +239,7 @@ The initial values are supplied directly by the user. HeatLib does not calculate
 The boundary forcing arrays are constructed as
 
 $$
-f_b^n=\begin{cases}f_{b,\mathrm{initial}},&n=0,\\f_{b,\mathrm{new}}(t_n),&n\geq1.\end{cases}\tag{14}
+f_b^n=\begin{cases}f_{b,\mathrm{initial}},&n=0,\\f_{b,\mathrm{new}}(t_n),&n\geq1.\end{cases}
 $$
 
 The initial temperature profile is preserved in `u[0, :]` without modification.
