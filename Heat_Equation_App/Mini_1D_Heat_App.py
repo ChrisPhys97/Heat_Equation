@@ -144,16 +144,7 @@ class HeatEquationApp:
 
         right_frame.grid(row=0,column=1,sticky="nsew")
 
-        tk.Label(
-            right_frame,
-            text="Boundary Conditions",
-            font=("Helvetica", 17, "bold"),
-            bg="white"
-        ).pack(
-            anchor="w",
-            padx=20,
-            pady=(20, 5)
-        )
+        tk.Label(right_frame,text="Boundary Conditions",font=("Helvetica",17,"bold"),bg="white").pack(anchor="w",padx=20,pady=(20,5))
 
         # --- Mathematical equation ----------------------------------
 
@@ -223,7 +214,6 @@ class HeatEquationApp:
     def run_solver(self, method):
 
         try:
-
             values = [entry.get().strip() for entry in self.entries]
 
             TempFormula = values[0]
@@ -246,13 +236,10 @@ class HeatEquationApp:
             T = float(values[12])
 
             if method == "FTCS":
-
                 HeatLib.FTCS(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L, T)
 
             elif method == "Crank-Nicolson":
-
-                # Uses the existing CN interface until updated.
-                HeatLib.CrankNicolson(TempFormula,a0, aN,f0, fN, k0, kN, dx, dt, L, T)
+                 HeatLib.CrankNicolson(TempFormula,a0,aN,f0_initial,fN_initial,f0,fN,k0,kN,dx,dt,L,T)
 
             self.parameter_window.destroy()
 
@@ -267,12 +254,9 @@ class HeatEquationApp:
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
     def run(self):
-
         self.root.mainloop()
-
 
 if __name__ == "__main__":
 
     app = HeatEquationApp()
     app.run()
-
