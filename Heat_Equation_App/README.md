@@ -23,7 +23,7 @@ The GUI collects the user-defined parameters and passes them to the numerical ro
 The application solves the one-dimensional heat equation
 
 $$
-\frac{\partial u}{\partial t}=\alpha\frac{\partial^2u}{\partial x^2}\tag{1}
+\frac{\partial u}{\partial t}=\alpha\frac{\partial^2u}{\partial x^2}
 $$
 
 where $u(x,t)$ denotes the temperature distribution and $\alpha$ is the constant thermal diffusivity.
