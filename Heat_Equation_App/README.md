@@ -249,6 +249,179 @@ $$
 
 The initial temperature profile is preserved in `u[0, :]` without modification.
 
+### Numerical Implementation of Boundary Conditions: FTCS
+
+The treatment of boundary conditions is an important part of the numerical solution because the standard central-difference stencil cannot be applied directly at the domain boundaries without additional information. HeatLib handles the boundary nodes separately from the interior nodes, using the general boundary-condition formulation
+
+$$
+a_bu+k_b\frac{\partial u}{\partial n}=f_b(t).
+$$
+
+The coefficients $a_b$ and $k_b$ determine the type of boundary condition, while $f_b(t)$ represents the prescribed boundary forcing. The latter may be constant or time-dependent and is evaluated at the discrete time levels of the simulation.
+
+#### Boundary Forcing Arrays
+
+For each boundary, the user specifies an initial forcing value and a new forcing expression. These are combined into a time-dependent array using the `boundary_forcing()` function:
+
+```python
+def boundary_forcing(t, initial_value, new_expression):
+
+    f = evaluate_expression(new_expression, "t", t)
+
+    f[0] = float(initial_value)
+
+    return f
+```
+
+The resulting array is defined by
+
+$$
+f_b^n =
+\begin{cases}
+f_{b,\mathrm{initial}}, & n=0,\\
+f_{b,\mathrm{new}}(t_n), & n\geq1.
+\end{cases}
+$$
+
+The initial value is provided by the user and should be consistent with the initial temperature distribution. The new expression determines the boundary forcing during the subsequent simulation.
+
+The forcing $f_b$ does not necessarily represent a temperature. Depending on the boundary coefficients, it may prescribe a boundary temperature, a temperature gradient, or a linear combination of both.
+
+#### Dirichlet Boundary Conditions
+
+For Dirichlet conditions, $k_b=0$, and the general boundary equation reduces to
+
+$$
+u_b(t)=\frac{f_b(t)}{a_b}.
+$$
+
+Since the boundary temperature is explicitly prescribed, it is assigned directly at the new time level:
+
+$$
+u_b^{n+1}=\frac{f_b^{n+1}}{a_b}.
+$$
+
+In HeatLib, the left boundary is updated as
+
+```python
+if k0 == 0:
+    u[n+1, 0] = f0[n+1] / a0
+```
+
+The same approach is used at the right boundary.
+
+Notice that the initial temperature distribution is not overwritten. The first row of the solution array, `u[0, :]`, retains the original user-defined profile, while the new Dirichlet conditions are applied from the first subsequent time level.
+
+#### Neumann and Robin Boundary Conditions
+
+For Neumann and Robin conditions, $k_b\neq0$, and the boundary derivative must be approximated numerically.
+
+At the left boundary, the outward-normal derivative is
+
+$$
+\left.\frac{\partial u}{\partial n}\right|_{x=0}=-\left.\frac{\partial u}{\partial x}\right|_{x=0}.
+$$
+
+Using a second-order central difference with a ghost node,
+
+$$
+\left.\frac{\partial u}{\partial n}\right|_{x=0}\approx\frac{u_{-1}^n-u_1^n}{2\Delta x}.
+$$
+
+Substituting this approximation into the general boundary condition gives
+
+$$
+a_0u_0^n+k_0\frac{u_{-1}^n-u_1^n}{2\Delta x}=f_0^n.
+$$
+
+Solving for the ghost-node temperature,
+
+$$
+u_{-1}^n=u_1^n+\frac{2\Delta x}{k_0}\left(f_0^n-a_0u_0^n\right).
+$$
+
+The FTCS discretization at the left boundary is
+
+$$
+u_0^{n+1}=
+u_0^n+
+r\left(
+u_1^n-2u_0^n+u_{-1}^n
+\right).
+$$
+
+Substituting the ghost-node expression yields
+
+$$
+u_0^{n+1}=
+2ru_1^n+
+\left(
+1-2r-\frac{2r\Delta x a_0}{k_0}
+\right)u_0^n+
+\frac{2r\Delta x}{k_0}f_0^n.
+$$
+
+The same derivation applies to the right boundary using the outward-normal convention, giving
+
+$$
+u_N^{n+1}=
+2ru_{N-1}^n+
+\left(
+1-2r-\frac{2r\Delta x a_N}{k_N}
+\right)u_N^n+
+\frac{2r\Delta x}{k_N}f_N^n.
+$$
+
+Both equations have the same algebraic structure and are implemented through a single function:
+
+```python
+def FTCS_boundary(u_boundary, u_adjacent, r, dx, a, k, f):
+
+    return (
+        2*r*u_adjacent
+        + (1 - 2*r - 2*r*dx*(a/k))*u_boundary
+        + 2*r*dx*(f/k)
+    )
+```
+
+The left boundary is updated by
+
+```python
+u[n+1, 0] = FTCS_boundary(
+    u[n, 0], u[n, 1],
+    r, dx, a0, k0, f0[n]
+)
+```
+
+while the right boundary uses
+
+```python
+u[n+1, -1] = FTCS_boundary(
+    u[n, -1], u[n, -2],
+    r, dx, aN, kN, fN[n]
+)
+```
+
+For Neumann conditions, $a_b=0$, and the boundary-temperature contribution proportional to $a_b/k_b$ vanishes. For Robin conditions, both the boundary temperature and the forcing contribute to the update.
+
+#### Boundary Forcing and Time Integration
+
+An important distinction concerns the time level at which the boundary forcing is evaluated.
+
+For Dirichlet conditions, the prescribed boundary temperature is imposed at the new time level, using $f_b^{n+1}$.
+
+For Neumann and Robin conditions, FTCS uses the forcing at the current time level, $f_b^n$, because the explicit update is calculated entirely from quantities known at time $t_n$.
+
+For example, suppose the boundary forcing is initially zero and changes to a constant value of one:
+
+$$
+f_b^0=0,\qquad f_b^n=1\quad(n\geq1).
+$$
+
+During the first FTCS update, from $n=0$ to $n=1$, a Neumann or Robin boundary uses $f_b^0=0$. The new forcing $f_b^1=1$ first contributes to the following update, from $n=1$ to $n=2$.
+
+This distinction follows directly from the explicit time discretization and explains why the two boundary treatments use different indices in the implementation.
+
 ### Time Discretization of Boundary Conditions
 
 The two numerical methods handle the boundary forcing differently.
