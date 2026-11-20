@@ -29,20 +29,10 @@ def Animation(dt, t, x, u):
         ax.set_ylim([ymin, ymax])
         ax.set_xlim([x.min(), x.max()])
         ax.set_xlabel("x", fontsize=12)
-        ax.set_title(
-            f"Temperature — t = {t_for_animation[i]:.4f}",
-            fontsize=14
-        )
+        ax.set_title(f"Temperature — t = {t_for_animation[i]:.4f}",fontsize=14)
         ax.grid(True, linewidth=0.5, color="lightgray")
 
-    ani = FuncAnimation(
-        fig=fig,
-        func=animate,
-        frames=len(t_for_animation),
-        interval=20,
-        repeat=False
-    )
-
+    ani = FuncAnimation(fig=fig,func=animate,frames=len(t_for_animation),interval=20,repeat=False)
     plt.show()
 
     return ani
@@ -58,7 +48,7 @@ def CDS(r,n,u): return r*u[n,2:]+(1-2*r)*u[n,1:-1]+r*u[n,:-2]
 
 def FTCS_boundary(u_boundary, u_adjacent, r, dx, a, k, f):
 
-    return (2*r*u_adjacent + (1 - 2*r - 2*r*dx*(a/k))*u_boundary + 2*r*dx*(f/k))
+    return 2*r*u_adjacent + (1 - 2*r - 2*r*dx*(a/k))*u_boundary + 2*r*dx*(f/k)
     
 # ---------------------------------------------------------------------------------
 
@@ -106,21 +96,18 @@ def boundary_forcing(t, initial_value, new_expression):
 
     return f
 
-
 # --- Forward Time - Central Difference Scheme ------------------------
 
 def FTCS(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L, T, a=1):
 
     # --- Input validation ---------------------------------------------
 
-    if dx <= 0 or dt <= 0 or L <= 0 or T <= 0 or a <= 0:
+    if dx <= 0 or dt <= 0 or L <= 0 or T <= 0 or a <= 0: 
         raise ValueError("dx, dt, L, T and diffusivity must be positive.")
 
-    if a0 == 0 and k0 == 0:
-        raise ValueError("Invalid left boundary parameters.")
+    if a0 == 0 and k0 == 0: raise ValueError("Invalid left boundary parameters.")
 
-    if aN == 0 and kN == 0:
-        raise ValueError("Invalid right boundary parameters.")
+    if aN == 0 and kN == 0: raise ValueError("Invalid right boundary parameters.")
 
     # --- Grid ---------------------------------------------------------
 
