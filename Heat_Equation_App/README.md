@@ -23,8 +23,7 @@ The GUI collects the user-defined parameters and passes them to the numerical ro
 The application solves the one-dimensional heat equation
 
 $$
-\frac{\partial u}{\partial t}
-=
+\frac{\partial u}{\partial t}=
 \alpha\frac{\partial^2u}{\partial x^2}
 \tag{1}
 $$
@@ -56,16 +55,14 @@ where $a_b$ and $k_b$ are boundary coefficients, $f_b(t)$ is the prescribed boun
 For a one-dimensional domain, the outward-normal derivatives are
 
 $$
-\left.\frac{\partial u}{\partial n}\right|_{x=0}
-=
+\left.\frac{\partial u}{\partial n}\right|_{x=0}=
 -\left.\frac{\partial u}{\partial x}\right|_{x=0}
 $$
 
 and
 
 $$
-\left.\frac{\partial u}{\partial n}\right|_{x=L}
-=
+\left.\frac{\partial u}{\partial n}\right|_{x=L}=
 +\left.\frac{\partial u}{\partial x}\right|_{x=L}.
 $$
 
@@ -80,8 +77,7 @@ The FTCS scheme combines a forward Euler approximation in time with a second-ord
 For an interior node $i$, the discretized equation is
 
 $$
-u_i^{n+1}
-=
+u_i^{n+1}=
 u_i^n+
 r\left(
 u_{i+1}^n-2u_i^n+u_{i-1}^n
@@ -135,12 +131,8 @@ At every time step, the discretization produces a tridiagonal linear system.
 The Crank–Nicolson discretization produces equations of the form
 
 $$
-A_W^i u_{i-1}^{n+1}
-+
-A_P^i u_i^{n+1}
-+
-A_E^i u_{i+1}^{n+1}
-=
+A_W^i u_{i-1}^{n+1}+A_P^i u_i^{n+1}+
+A_E^i u_{i+1}^{n+1}=
 Q_i,
 \tag{6}
 $$
@@ -169,8 +161,7 @@ Instead of storing and manipulating the full coefficient matrix, the algorithm o
 The modified main diagonal is calculated recursively:
 
 $$
-A_P^{*i}
-=
+A_P^{*i}=
 A_P^i-
 \frac{A_W^i A_E^{i-1}}
 {A_P^{*(i-1)}}.
@@ -180,8 +171,7 @@ $$
 The modified right-hand side is
 
 $$
-Q_i^*
-=
+Q_i^*=
 Q_i-
 \frac{A_W^i Q_{i-1}^*}
 {A_P^{*(i-1)}}.
@@ -246,8 +236,7 @@ Neumann conditions prescribe the outward-normal temperature gradient.
 Setting $a_b=0$ gives
 
 $$
-\frac{\partial u}{\partial n}
-=
+\frac{\partial u}{\partial n}=
 \frac{f_b(t)}{k_b},
 \qquad k_b\neq0.
 \tag{12}
