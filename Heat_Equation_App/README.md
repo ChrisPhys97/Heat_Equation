@@ -144,13 +144,20 @@ $$
 The modified right-hand side is
 
 $$
-Q_i^{*}={Q_i}-\frac{A_W^{i} Q_{i-1}^{*}}{A_P^{*(i-1)}}.
+Q_i^{*}
+=
+{Q_i}
+-
+\frac{A_W^{i}Q_{i-1}^{*}}
+{A_P^{*(i-1)}}.
 $$
 
 The first row remains unchanged:
 
 $$
-A_P^{*0}=A_P^0,\qquad Q_0^{*}=Q_0.
+A_P^{*0}=A_P^0,
+\qquad 
+Q_0^{*}=Q_0.
 $$
 
 ### Backward Substitution
@@ -244,7 +251,7 @@ The boundary forcing arrays are constructed as
 
 $$
 \begin{cases}
-f_b^n = f_{b,\mathrm{initial}}, & n = 0 \\[6pt]
+f_b^n = f_{b,\mathrm{initial}}, & n = 0 \
 f_b^n = f_{b,\mathrm{new}}(t_n), & n \geq 1
 \end{cases}
 $$
