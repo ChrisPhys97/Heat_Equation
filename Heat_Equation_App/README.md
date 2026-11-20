@@ -247,7 +247,7 @@ $$
 f_b^n =
 \begin{cases}
 f_{b,\mathrm{initial}}, & n=0,\\
-f_{b,\mathrm{new}}(t_n), & n\geq1.
+\rule{0pt}{24pt}f_{b,\mathrm{new}}(t_n), & n\geq1.
 \end{cases}
 $$
 
@@ -386,25 +386,15 @@ Since both equations have the same algebraic structure, they are implemented thr
 ```python
 def FTCS_boundary(u_boundary, u_adjacent, r, dx, a, k, f):
 
-    return (
-        2*r*u_adjacent
-        + (1 - 2*r - 2*r*dx*(a/k))*u_boundary
-        + 2*r*dx*(f/k)
-    )
+    return (2*r*u_adjacent + (1 - 2*r - 2*r*dx*(a/k))*u_boundary + 2*r*dx*(f/k))
 ```
 
 The left and right boundaries are updated as
 
 ```python
-u[n+1, 0] = FTCS_boundary(
-    u[n, 0], u[n, 1],
-    r, dx, a0, k0, f0[n]
-)
+u[n+1, 0] = FTCS_boundary(u[n, 0], u[n, 1], r, dx, a0, k0, f0[n])
 
-u[n+1, -1] = FTCS_boundary(
-    u[n, -1], u[n, -2],
-    r, dx, aN, kN, fN[n]
-)
+u[n+1, -1] = FTCS_boundary(u[n, -1], u[n, -2], r, dx, aN, kN, fN[n])
 ```
 
 For Neumann conditions, $a_b=0$, so the contribution proportional to $a_b/k_b$ vanishes. For Robin conditions, both the boundary temperature and the prescribed forcing contribute to the update.
