@@ -138,26 +138,19 @@ Instead of storing and manipulating the full coefficient matrix, the algorithm o
 The modified main diagonal is calculated recursively:
 
 $$
-A_P^{*i}=A_P^i-\frac{A_W^i A_E^{i-1}}{A_P^{*(i-1)}}.
+A_P^{\ast i}=A_P^i-\frac{A_W^i A_E^{i-1}}{A_P^{\ast(i-1)}}.
 $$
 
 The modified right-hand side is
 
 $$
-Q_i^{*}
-=
-{Q_i}
--
-\frac{A_W^{i}Q_{i-1}^{*}}
-{A_P^{*(i-1)}}.
+Q_i^{\ast}={Q_i}-\frac{A_W^{i}Q_{i-1}^{\ast}}{A_P^{*(i-1)}}.
 $$
 
 The first row remains unchanged:
 
 $$
-A_P^{*0}=A_P^0,
-\qquad 
-Q_0^{*}=Q_0.
+A_P^{\ast 0}=A_P^0,\qquad Q_0^{\ast}=Q_0.
 $$
 
 ### Backward Substitution
@@ -165,16 +158,13 @@ $$
 After forward elimination, the final unknown is obtained from
 
 $$
-u_N=\frac{Q_N^{*}}{A_P^{*N}}.
+u_N=\frac{Q_N^{\ast}}{A_P^{\ast N}}.
 $$
 
 The remaining values are calculated recursively:
 
 $$
-u_i=
-\frac{Q_i^{*}-A_E^i u_{i+1}}
-{A_P^{*i}},
-\qquad i=N-1,\ldots,0.
+u_i=\frac{Q_i^{\ast}-A_E^i u_{i+1}}{A_P^{\ast i}},\qquad i=N-1,\ldots,0.
 $$
 
 In `HeatLib.py`, `Ap_star` stores the modified main diagonal and `Q_star` stores the modified right-hand-side vector.
@@ -251,7 +241,7 @@ The boundary forcing arrays are constructed as
 
 $$
 \begin{cases}
-f_b^n = f_{b,\mathrm{initial}}, & n = 0 \
+f_b^n = f_{b,\mathrm{initial}}, & n = 0 \\
 f_b^n = f_{b,\mathrm{new}}(t_n), & n \geq 1
 \end{cases}
 $$
