@@ -193,125 +193,138 @@ def FTCS(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L,
 
     return x, t, u
 
-# --- Crank-Nicolson Scheme function ---
+# --- Crank-Nicolson Scheme --------------------------------------------
 
-def CrankNicolson(TempFormula,a0,aN,f0,fN,k0,kN,dx,dt,L,T,a=1):
-    r=(a*dt)/(dx**2)
-    if r<=0:
-        raise ValueError("Invalid parameters: r must be positive.")
-    
-    x=np.arange(0,L+dx,dx)
-    t=np.arange(0,T+dt,dt)
-    u=np.zeros((len(t),len(x)))
+def CrankNicolson(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L, T, a=1):
 
-    u[0,:]=ne.evaluate(TempFormula,local_dict={"x":x,"pi":np.pi})
-    f0=ne.evaluate(f0,local_dict={"x":x,"t":t,"pi":np.pi})
-    fN=ne.evaluate(fN,local_dict={"x":x,"t":t,"pi":np.pi})
-    
-    # Boundary values are known and are added separately through b0_1 and b1_1.
+    # --- Input validation ---------------------------------------------
 
-    b0_1=np.zeros((len(x)-2))
-    b1_1=np.zeros_like(b0_1)
+    if dx <= 0 or dt <= 0 or L <= 0 or T <= 0 or a <= 0:
+        raise ValueError("dx, dt, L, T and diffusivity must be positive.")
 
-    # For Neumann and Robin conditions, b0 and b1 are full time-dependent boundary arrays. 
-    # They are filled once for all time levels and indexed
+    if a0 == 0 and k0 == 0: raise ValueError("Invalid left boundary parameters.")
 
-    b1=np.zeros((len(t),len(x)))
-    b0=np.zeros_like(b1)
+    if aN == 0 and kN == 0: raise ValueError("Invalid right boundary parameters.")
 
-    if k0==0 and kN==0 and a0!=0 and aN!=0:
-        
-        u[:,0]=f0/a0
-        u[:,-1]=fN/aN
-            
-        N1 = len(x) - 2
+    # --- Grid ---------------------------------------------------------
 
-        lower1 = -r * np.ones(N1 - 1)
-        main1 = (2 + 2*r) * np.ones(N1)
-        upper1 = -r * np.ones(N1 - 1)
+    x = np.arange(0, L + dx/2, dx)
+    t = np.arange(0, T + dt/2, dt)
 
-        # --- For time-dependent Dirichlet boundary conditions, the boundary contribution must be updated at every time step ----
+    if len(x) < 3: raise ValueError("At least three spatial nodes are required.")
 
-        for n in range(0,len(t)-1):
-            b0_1[0]=u[n,0]
-            b0_1[-1]=u[n,-1]
-            b1_1[0]=u[n+1,0]
-            b1_1[-1]=u[n+1,-1]
+    if len(t) < 2: raise ValueError("At least two time levels are required.")
 
-            # Compute B1 @ u[n, 1:-1] using slicing instead of constructing and multiplying by the full B1 matrix.
+    if not np.isclose(x[-1], L): raise ValueError("L must be an integer multiple of dx.")
 
-            C1 = np.empty(len(x) - 2)
+    if not np.isclose(t[-1], T): raise ValueError("T must be an integer multiple of dt.")
 
-            if len(x) - 2 == 1:
-                C1[0] = (2 - 2*r) * u[n, 1]
-            else:
-                C1[0] = ((2 - 2*r) * u[n, 1]+ r * u[n, 2])
-                C1[1:-1] = (r * u[n, 1:-3]+ (2 - 2*r) * u[n, 2:-2]+ r * u[n, 3:-1])
-                C1[-1] = (r * u[n, -3]+ (2 - 2*r) * u[n, -2])
+    r = a*dt / dx**2
 
-            C1 += r*b0_1 + r*b1_1
-            u[n+1, 1:-1] = thomas_solver(lower1, main1, upper1, C1)
+    N = len(x)
 
-    elif a0==0 and aN==0 and k0!=0 and kN!=0:
-    
-        N = len(x)
+    u = np.zeros((len(t), N))
 
-        lower = -r * np.ones(N - 1)
-        main = (2 + 2*r) * np.ones(N)
-        upper = -r * np.ones(N - 1)
+    # --- Initial temperature profile ----------------------------------
 
-        upper[0] = -2*r
-        lower[-1] = -2*r
+    u[0, :] = evaluate_expression(TempFormula, "x", x)
 
-        b0[:, 0] = b1[:, 0] = -2*r*dx*(f0/k0)
-        b0[:, -1] = b1[:, -1] = -2*r*dx*(fN/kN)
+    # The initial profile is preserved.
 
-        for n in range(len(t)-1):
+    # --- Boundary forcing arrays -------------------------------------
 
-            # Compute B @ u[n, :] using slicing instead of full matrix multiplication.
+    f0 = boundary_forcing(t, f0_initial, f0)
+    fN = boundary_forcing(t, fN_initial, fN)
 
-            C = np.empty(len(x))
-            C[0] = (2 - 2*r) * u[n, 0] + 2*r * u[n, 1]
-            C[1:-1] = (r * u[n, :-2]+ (2 - 2*r) * u[n, 1:-1]+ r * u[n, 2:])
-            C[-1] = 2*r * u[n, -2] + (2 - 2*r) * u[n, -1]
+    # --- Tridiagonal matrix A ----------------------------------------
 
-            C += b0[n, :] + b1[n + 1, :]
-            u[n+1, :] = thomas_solver(lower, main, upper, C)
+    lower = -r * np.ones(N - 1)
+    main = (2 + 2*r) * np.ones(N)
+    upper = -r * np.ones(N - 1)
 
-    elif k0!=0 and kN!=0:
+    # --- Left boundary coefficients ----------------------------------
 
-        upper[0] = -2*r
-        lower[-1] = -2*r
+    if k0 == 0:
 
-        main[0] = 2 + 2*r*(1 - (a0/k0)*dx)
-        main[-1] = 2 + 2*r*(1 - (aN/kN)*dx)
+        # Dirichlet: u[0] = f0/a0
+        main[0] = 1.0
+        upper[0] = 0.0
 
-        b0[:, 0] = b1[:, 0] = 2*r*dx*(f0/k0)
-        b0[:, -1] = b1[:, -1] = 2*r*dx*(fN/kN)
-
-        upper[0] = -2*r
-        lower[-1] = -2*r
-
-        for n in range(len(t) - 1):
-
-            # Compute B @ u[n, :] using slicing instead of full matrix multiplication.
-
-            C = np.empty(len(x))
-            C[0] = ((2 - 2*r*(1 - (a0/k0)*dx)) * u[n, 0]+ 2*r * u[n, 1])
-            C[1:-1] = (r * u[n, :-2]+ (2 - 2*r) * u[n, 1:-1]+ r * u[n, 2:])
-            C[-1] = (2*r * u[n, -2]+ (2 - 2*r*(1 + (aN/kN)*dx)) * u[n, -1])
-            
-            C += b0[n, :] + b1[n + 1, :]
-            u[n+1, :] = thomas_solver(lower, main, upper, C)        
     else:
-        n=0
-        raise ValueError("Invalid boundary parameters.")
+
+        # Neumann or Robin
+        main[0] = 2 + 2*r + 2*r*dx*(a0/k0)
+        upper[0] = -2*r
+
+    # --- Right boundary coefficients ---------------------------------
+
+    if kN == 0:
+
+        # Dirichlet: u[-1] = fN/aN
+        main[-1] = 1.0
+        lower[-1] = 0.0
+
+    else:
+
+        # Neumann or Robin
+        main[-1] = 2 + 2*r + 2*r*dx*(aN/kN)
+        lower[-1] = -2*r
+
+    # --- Time integration ---------------------------------------------
+
+    for n in range(len(t) - 1):
+
+        Q = np.zeros(N)
+
+        # --- Interior nodes ------------------------------------------
+
+        Q[1:-1] = (r*u[n, :-2] + (2 - 2*r)*u[n, 1:-1] + r*u[n, 2:])
+
+        # --- Left boundary -------------------------------------------
+
+        if k0 == 0:
+
+            # Dirichlet at n+1
+            Q[0] = f0[n+1] / a0
+
+        else:
+
+            # Neumann / Robin with trapezoidal forcing
+            Q[0] = ((2 - 2*r - 2*r*dx*(a0/k0))*u[n, 0] + 2*r*u[n, 1] + 2*r*dx*(f0[n] + f0[n+1])/k0)
+
+        # --- Right boundary ------------------------------------------
+
+        if kN == 0:
+
+            # Dirichlet at n+1
+            Q[-1] = fN[n+1] / aN
+
+        else:
+
+            # Neumann / Robin with trapezoidal forcing
+            Q[-1] = ((2 - 2*r - 2*r*dx*(aN/kN))*u[n, -1] + 2*r*u[n, -2] + 2*r*dx*(fN[n] + fN[n+1])/kN)
+
+        # --- Solve tridiagonal system --------------------------------
+
+        u[n+1, :] = thomas_solver( lower, main, upper, Q )
+
+    # --- Animation ----------------------------------------------------
 
     plt.close()
-    Animation(dt,n,t,x,u)
+    ani = Animation(dt, t, x, u)
+
+    return x, t, u
+
 
 if __name__ == "__main__":
-    Initial_Temp=input("Enter initial temperature:")
-    f0=input("Left Boundary: ")
-    fN=input("Right Boundary: ")
-    CrankNicolson(Initial_Temp,0,0,f0,fN,1,1,0.1,0.001,1,1)
+
+    Initial_Temp = input("Enter initial temperature: ")
+
+    f0_initial = float(input("Initial left boundary value (n=0): "))
+    fN_initial = float(input("Initial right boundary value (n=0): "))
+
+    f0 = input("New left boundary expression (n>=1): ")
+    fN = input("New right boundary expression (n>=1): ")
+
+    CrankNicolson(Initial_Temp,0,0,f0_initial,fN_initial,f0,fN,1, 1,0.1,0.001,1,1)
+
