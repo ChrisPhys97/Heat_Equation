@@ -4,28 +4,49 @@ import numexpr as ne
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-def Animation(dt,n,t,x,u):
-    if n!=0:
-        if dt<0.001:    # --- If time step is very small, skip frames to make animation faster ---
-            t_for_animation = t[::10]  
-            u_for_animation = u[::10]
-        else:
-            t_for_animation=t[::1]
-            u_for_animation=u[::1]
-        fig, ax = plt.subplots()
-        
-        def animate(i):
-            ax.clear()
-            ax.plot(x, u_for_animation[i], color="blue")
-            ax.set_ylim([u.min(), u.max()])
-            ax.set_xlim([x.min(), x.max()])
-            ax.set_xlabel("x", fontsize=12)
-            ax.set_title("Temperature", fontsize=14, loc="center")  
-            ax.grid(True,linewidth=0.5,color="lightgray")
-        ani = FuncAnimation(fig=fig,func=animate,frames=len(t_for_animation),interval=1,repeat=False)
-        plt.show()
+
+def Animation(dt, t, x, u):
+
+    if dt < 0.001:
+        t_for_animation = t[::10]
+        u_for_animation = u[::10]
     else:
-        return
+        t_for_animation = t
+        u_for_animation = u
+
+    fig, ax = plt.subplots()
+
+    def animate(i):
+        ax.clear()
+        ax.plot(x, u_for_animation[i], color="blue")
+
+        ymin, ymax = u.min(), u.max()
+
+        if ymin == ymax:
+            ymin -= 0.5
+            ymax += 0.5
+
+        ax.set_ylim([ymin, ymax])
+        ax.set_xlim([x.min(), x.max()])
+        ax.set_xlabel("x", fontsize=12)
+        ax.set_title(
+            f"Temperature — t = {t_for_animation[i]:.4f}",
+            fontsize=14
+        )
+        ax.grid(True, linewidth=0.5, color="lightgray")
+
+    ani = FuncAnimation(
+        fig=fig,
+        func=animate,
+        frames=len(t_for_animation),
+        interval=20,
+        repeat=False
+    )
+
+    plt.show()
+
+    return ani
+
     
 # --- Central-difference spatial discretization using NumPy slicing. -------------
 
@@ -181,7 +202,6 @@ def FTCS(TempFormula, a0, aN, f0_initial, fN_initial, f0, fN, k0, kN, dx, dt, L,
     # --- Animation ----------------------------------------------------
 
     plt.close()
-
     ani = Animation(dt, t, x, u)
 
     return x, t, u
